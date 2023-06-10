@@ -3,7 +3,7 @@
 
 hugo new site . --force
 
-git clone https://github.com/McShelby/hugo-theme-relearn.git themes/relearn
+git submodule add https://github.com/McShelby/hugo-theme-relearn.git themes/relearn
 
 echo 'theme = "relearn"' >> hugo.toml
 
