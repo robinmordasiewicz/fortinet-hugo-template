@@ -9,9 +9,9 @@
 
 #git submodule add https://github.com/McShelby/hugo-theme-relearn.git themes/hugo-theme-relearn
 
-#git submodule update --init --recursive
-
 #git clone add https://github.com/McShelby/hugo-theme-relearn.git themes/hugo-theme-relearn
+
+git submodule update --init --recursive
 
 git clone https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md.git content/
 
