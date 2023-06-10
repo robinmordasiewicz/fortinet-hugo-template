@@ -1,7 +1,6 @@
 
 hugo new site .
 rm -rf content
-rm -rf themes/*
 
 git init
 
