@@ -30,6 +30,20 @@ enableGitInfo = true
   landingPageName = "<i class='fas fa-home'></i> Home"
 
 [params]
+
+
+  editURL = "https://github.com/McShelby/hugo-theme-relearn/edit/main/exampleSite/content/"
+  collapsibleMenu = true
+  breadcrumbSeparator = ">"
+  disableSeoHiddenPages = true
+  # this is to index search for your native language in other languages, too (eg.
+  # pir in this showcase)
+  # this is for the stylesheet generator to allow for interactivity in Mermaid
+  # graphs; you usually will not need it and you should remove this for
+  # security reasons
+  mermaidZoom = true
+
+
   landingPageUrl = "UserRepo"
   # Fortinet specific variants are: "Workshop", "UseCase", "Demo", "Spotlight", "FortinetSilver", "FortinetTeal".  These change the top left logo background & add Text under the Logo
   themeVariant = "Workshop"
