@@ -32,7 +32,6 @@ enableGitInfo = true
 [params]
 
   editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp/edit/main/content/"
-  collapsibleMenu = true
   breadcrumbSeparator = ">"
   disableSeoHiddenPages = true
   # this is to index search for your native language in other languages, too (eg.
