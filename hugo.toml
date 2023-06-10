@@ -31,8 +31,7 @@ enableGitInfo = true
 
 [params]
 
-
-  editURL = "https://github.com/McShelby/hugo-theme-relearn/edit/main/exampleSite/content/"
+  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp/edit/main/content/"
   collapsibleMenu = true
   breadcrumbSeparator = ">"
   disableSeoHiddenPages = true
