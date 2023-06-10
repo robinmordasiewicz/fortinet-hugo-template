@@ -10,6 +10,7 @@ disableHugoGeneratorInject = true
 metaDataFormat = "yaml"
 defaultContentLanguageInSubdir= "false"
 enableEmoji = true
+enableGitInfo = true
 
 [outputs]
   home = [ "HTML", "RSS", "JSON", "SEARCH", "SEARCHPAGE"]
