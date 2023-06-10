@@ -5,15 +5,13 @@
 
 #git pull origin main --allow-unrelated-histories
 
-
 #git submodule add https://github.com/McShelby/hugo-theme-relearn.git themes/hugo-theme-relearn
 
 #git clone add https://github.com/McShelby/hugo-theme-relearn.git themes/hugo-theme-relearn
 
-git submodule add https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md.git content/
-
 git submodule update --init --recursive
 
+git clone https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md.git content/
 
 
 
