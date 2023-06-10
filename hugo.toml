@@ -1,4 +1,4 @@
-baseURL = "https://fortinetcloudcse.github.io/"
+baseURL = "https://robinmordasiewicz.github.io/"
 languageCode = "en-US"
 defaultContentLanguage = "en"
 canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
@@ -68,7 +68,7 @@ enableGitInfo = true
 
   customMathJaxURL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
   mathJaxInitialize = "{}"
-  disableMermaid = true
+  disableMermaid = false
   mermaidInitialize = "{ \"theme\": \"default\" , \"securityLevel\": \"loose\" }"
   disableSwagger = true
   customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
@@ -81,27 +81,3 @@ enableGitInfo = true
   disableExplicitIndexURLs = false
   externalLinkTarget = "_blank"
 
-[[menu.shortcuts]] 
-name = "<i class='fas fa-graduation-cap'></i> Fortinet Cloud CSE GitHub Org"
-url = "https://github.com/FortinetCloudCSE"
-weight = 1
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-tools'></i>Fortinet Standard Workshop Guide"
-url = "https://fortinetcloudcse.github.io/UserRepo"
-weight = 11
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-tools'></i>Fortinet Standard Workshop Template Repo"
-url = "https://github.com/FortinetCloudCSE/UserRepo"
-weight = 21
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-tools'></i> Hugo reLearn theme - Guide"
-url = "https://mcshelby.github.io/hugo-theme-relearn/index.html"
-weight = 35
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-graduation-cap'></i> AWS Sample Workshop"
-url = "https://aws-samples.github.io/aws-modernization-workshop-sample/"
-weight = 50
