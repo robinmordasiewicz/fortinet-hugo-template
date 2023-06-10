@@ -1,0 +1,94 @@
+baseURL = "https://fortinetcloudcse.github.io/UserRepo/"
+languageCode = "en-US"
+defaultContentLanguage = "en"
+canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
+relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
+uglyURLs = true     # true -> basic/index.html -> basic.html
+theme = ["hugo-theme-relearn"]
+title = "Hugo for Fortinet TECWorkshops"
+disableHugoGeneratorInject = true
+metaDataFormat = "yaml"
+defaultContentLanguageInSubdir= "false"
+enableEmoji = true
+
+[outputs]
+  home = [ "HTML", "RSS", "JSON", "SEARCH", "SEARCHPAGE"]
+  section = ["HTML", "RSS"]
+  page = ["HTML", "RSS"]
+
+[markup]
+  [markup.highlight]
+    guessSyntax = false
+    noClasses = false
+    style = "native"
+
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[Langauges]
+  landingPageName = "<i class='fas fa-home'></i> Home"
+
+[params]
+  landingPageUrl = "UserRepo"
+  # Fortinet specific variants are: "Workshop", "UseCase", "Demo", "Spotlight", "FortinetSilver", "FortinetTeal".  These change the top left logo background & add Text under the Logo
+  themeVariant = "Workshop"
+
+  #Optional, By Default, the logo banner will match the Text from themeVariant Above
+  # If you would like to change the primary logo banner text, uncommenet logoBannerText Parameter and set to desired text.
+  #logoBannerText="Custom Logo Banner"
+
+  # Optional: If you'd like additional logo sub text/descriptions, use logoBannerSubText Parameter.  leave empty string to omit: ""
+  logoBannerSubText="sample sub-banner text"
+
+  author = "Jeff Kopko"
+  description = "Hugo for Fortinet TEC Workshops"
+  showVisitedLinks = true
+  disableSearch = false
+  disableAssetsBusting = false
+  disableInlineCopyToClipBoard = false
+  disableShortcutsTitle = false
+  disableLandingPageButton = true
+  disableLanguageSwitchingButton = true
+  disableBreadcrumb = false
+  disableToc = false
+  disableMathJax = true
+
+  customMathJaxURL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+  mathJaxInitialize = "{}"
+  disableMermaid = true
+  mermaidInitialize = "{ \"theme\": \"default\" , \"securityLevel\": \"loose\" }"
+  disableSwagger = true
+  customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+  swaggerInitialize = "{ \"theme\": \"light\" }"
+  disableNextPrev = false
+  ordersectionsby = "weight"
+  titleSeparator = "-"
+  collapsibleMenu = true
+  additionalContentLanguage = [ "en" ]
+  disableExplicitIndexURLs = false
+  externalLinkTarget = "_blank"
+
+[[menu.shortcuts]] 
+name = "<i class='fas fa-graduation-cap'></i> Fortinet Cloud CSE GitHub Org"
+url = "https://github.com/FortinetCloudCSE"
+weight = 1
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-tools'></i>Fortinet Standard Workshop Guide"
+url = "https://fortinetcloudcse.github.io/UserRepo"
+weight = 11
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-tools'></i>Fortinet Standard Workshop Template Repo"
+url = "https://github.com/FortinetCloudCSE/UserRepo"
+weight = 21
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-tools'></i> Hugo reLearn theme - Guide"
+url = "https://mcshelby.github.io/hugo-theme-relearn/index.html"
+weight = 35
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-graduation-cap'></i> AWS Sample Workshop"
+url = "https://aws-samples.github.io/aws-modernization-workshop-sample/"
+weight = 50
