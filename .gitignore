@@ -1,5 +1,4 @@
 .DS_Store
 content/
-themes/
 hugo.toml
 .hugo_build.lock
