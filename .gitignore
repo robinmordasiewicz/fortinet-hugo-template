@@ -1,4 +1,3 @@
 .DS_Store
-content/
 hugo.toml
 .hugo_build.lock
