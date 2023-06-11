@@ -1,3 +1,6 @@
+baseURL = "https://robinmordasiewicz.github.io/"
+title = "Fortinet Cloud Native Protection"
+
 languageCode = "en-US"
 defaultContentLanguage = "en"
 canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
@@ -28,26 +31,25 @@ enableGitInfo = true
   landingPageName = "<i class='fas fa-home'></i> Home"
 
 [params]
-
+  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md/edit/main/content/"
+  logoBannerText="FortiCNP"
+  logoBannerSubText="Version 23a"
+  author = "Robin Mordasiewicz"
+  description = "Fortinet Cloud Native Protection Presentation"
+  themeVariant = "fortinet"
   breadcrumbSeparator = ">"
   disableSeoHiddenPages = true
-  # this is to index search for your native language in other languages, too (eg.
-  # pir in this showcase)
-  # this is for the stylesheet generator to allow for interactivity in Mermaid
-  # graphs; you usually will not need it and you should remove this for
-  # security reasons
   mermaidZoom = true
-
   landingPageUrl = "UserRepo"
   # Fortinet specific variants are: "Workshop", "UseCase", "Demo", "Spotlight", "FortinetSilver", "FortinetTeal".  These change the top left logo background & add Text under the Logo
-  themeVariant = "Workshop"
+  #themeVariant = "Workshop"
 
   #Optional, By Default, the logo banner will match the Text from themeVariant Above
   # If you would like to change the primary logo banner text, uncommenet logoBannerText Parameter and set to desired text.
   #logoBannerText="Custom Logo Banner"
 
   showVisitedLinks = true
-  disableSearch = false
+  disableSearch = true
   disableAssetsBusting = false
   disableInlineCopyToClipBoard = false
   disableShortcutsTitle = false

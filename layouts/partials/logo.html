@@ -1,15 +1,11 @@
-<a id="logo" href='{{relURL "index.html"}}' title="Fortinet TEC Program">
-    {{ if eq $.Site.Params.themeVariant "Workshop" }}
-    <img style="vertical-align:middle" src="{{relURL "images/white-logo.svg"}}" height="70px">
-    {{ else }}
-    <img style="vertical-align:middle" src="{{relURL "images/logo.svg"}}" height="70px">
-    {{end}}
-
+<div class="MuiBox-root css-194vj9z">
+  <img src="/images/project-logo.svg" class="logo" alt="Logo">
+  <div class="MuiBox-root css-gm068i">
     {{ with .Site.Params.logoBannerText }}
-        <logoBanner id="title"> {{ . }} </logoBanner>
-    {{ else }}
-        <logoBanner id="title"> {{ $.Site.Params.themeVariant }} </logoBanner>
+        <div class="MuiBox-root css-ils4e4">{{ $.Site.Params.logoBannerText }}</div>
     {{ end }}
-
-        <logoBannerFreeForm id="subtitle"> {{ $.Site.Params.logoBannerSubText }} </logoBannerFreeForm>
-</a>
+    {{ with .Site.Params.logoBannerSubText }}
+      <div class="MuiBox-root css-1qxtz39">{{ $.Site.Params.logoBannerSubText }}</div>
+    {{ end }}
+  </div>
+</div>
