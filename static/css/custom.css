@@ -1,35 +1,60 @@
+#sidebar {
+  min-width: 16.75rem;
+  max-width: 16.75rem;
+  width: 16.75rem;
+}
+
 .footer {
-color: #fff;
-background-color: color(srgb 0.9568 0.9569 0.957);
+  background-color: color(srgb 0.9568 0.9569 0.957);
+  height: 30px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0px;
+  width: calc(100% - 16.75em);
 }
 
 #body #breadcrumbs {
-width: unset;
+  width: unset;
+}
+
+#body{
+  margin-inline-start: 16.75rem;
+  min-width: calc( 100% - 16.75rem);
+  max-width: calc( 100% - 16.75rem);
+  width: calc( 100% - 16.75rem);
+}
+
+img.socialicons {
+  width: 22px;  
 }
 
 .css-194vj9z {
-display: flex;
-padding: 0px 0px 0px 15px;
-align-items: center;
-/* background: rgb(194, 36, 25); */
-width: 200px;
-height: 64px;
-color: white;
+  display: flex;
+  padding: 0px 0px 0px 15px;
+  align-items: center;
+  /* background: rgb(194, 36, 25); */
+  width: 200px;
+  height: 64px;
+  color: white;
 }
 
 .logo {
-height: auto;
-width: 40px;
+  height: auto;
+  width: 40px;
 }
+
 .css-gm068i {
-padding-left: 16px;
-cursor: pointer;
+  padding-left: 16px;
+  cursor: pointer;
 }
+
 .css-ils4e4 {
-font-size: 16px;
-font-weight: 700;
-line-height: 24px;
-font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 -moz-osx-font-smoothing: grayscale;
 }
 
@@ -88,11 +113,7 @@ display: flex;
 font-size: 12px;
 font-weight: 400;
 justify-content: space-between;
-overflow-x: auto;
-overflow-y: hidden;
-white-space: nowrap;
 }
-
 
 .footer[_ngcontent-pxi-c0] {
 width: 100%;
@@ -119,11 +140,9 @@ white-space: nowrap;
 }
 
 .container-fluid {
-width: 100%;
-padding-right: 15px;
-padding-left: 15px;
-margin-right: auto;
-margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  height: 40px;
 }
 
 .footer[_ngcontent-ayh-c7] .left-col[_ngcontent-ayh-c7], .footer[_ngcontent-ayh-c7] .right-col[_ngcontent-ayh-c7] {
@@ -131,18 +150,7 @@ align-items: center;
 display: flex;
 flex-wrap: nowrap;
 }
-.footer[_ngcontent-ayh-c7] {
-font-size: 12px;
-font-weight: 400;
-white-space: nowrap;
-}
 
-#footer[_ngcontent-ayh-c0] {
-line-height: 40px;
-color: #333;
-font-size: 14px;
-font-weight: 700;
-}
 
 .footer[_ngcontent-ayh-c7] .right-col[_ngcontent-ayh-c7] {
 align-items: center;
@@ -157,15 +165,4 @@ display: flex;
 flex-wrap: nowrap;
 }
 
-.footer[_ngcontent-ayh-c7] {
-font-size: 12px;
-font-weight: 400;
-white-space: nowrap;
-}
 
-#footer[_ngcontent-ayh-c0] {
-line-height: 40px;
-color: #333;
-font-size: 14px;
-font-weight: 700;
-}
