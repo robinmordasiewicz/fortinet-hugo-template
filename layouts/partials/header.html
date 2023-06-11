@@ -121,7 +121,7 @@
         {{- if and (eq $outputFormat "html") .Site.Params.editURL $File }}
           {{- with $File.Path }}
           <div id="top-github-link">
-            <a class="github-link topbar-link" title='{{ T "Edit-this-page" }} (CTRL+ALT+w)' href="{{ $Site.Params.editURL }}{{ strings.TrimLeft "/" (replace $File.Dir "\\" "/") }}{{ $File.LogicalName }}" target="_blank">
+            <a class="github-link topbar-link sd-sphinx-override sd-btn sd-text-wrap sd-btn-outline-github reference external navigation-button" title='{{ T "Edit-this-page" }} (CTRL+ALT+w)' href="{{ $Site.Params.editURL }}{{ strings.TrimLeft "/" (replace $File.Dir "\\" "/") }}{{ $File.LogicalName }}" target="_blank">
               <i class="fa-brands fa-github" aria-hidden="true"></i> Edit
             </a>
           </div>
