@@ -1,11 +1,9 @@
-baseURL = "https://robinmordasiewicz.github.io/"
 languageCode = "en-US"
 defaultContentLanguage = "en"
 canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
 relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
 uglyURLs = true     # true -> basic/index.html -> basic.html
 theme = ["hugo-theme-relearn"]
-title = "Hugo for Fortinet TECWorkshops"
 disableHugoGeneratorInject = true
 metaDataFormat = "yaml"
 defaultContentLanguageInSubdir= "false"
@@ -31,7 +29,6 @@ enableGitInfo = true
 
 [params]
 
-  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md/edit/main/content/"
   breadcrumbSeparator = ">"
   disableSeoHiddenPages = true
   # this is to index search for your native language in other languages, too (eg.
@@ -41,7 +38,6 @@ enableGitInfo = true
   # security reasons
   mermaidZoom = true
 
-
   landingPageUrl = "UserRepo"
   # Fortinet specific variants are: "Workshop", "UseCase", "Demo", "Spotlight", "FortinetSilver", "FortinetTeal".  These change the top left logo background & add Text under the Logo
   themeVariant = "Workshop"
@@ -50,11 +46,6 @@ enableGitInfo = true
   # If you would like to change the primary logo banner text, uncommenet logoBannerText Parameter and set to desired text.
   #logoBannerText="Custom Logo Banner"
 
-  # Optional: If you'd like additional logo sub text/descriptions, use logoBannerSubText Parameter.  leave empty string to omit: ""
-  logoBannerSubText="sample sub-banner text"
-
-  author = "Jeff Kopko"
-  description = "Hugo for Fortinet TEC Workshops"
   showVisitedLinks = true
   disableSearch = false
   disableAssetsBusting = false
