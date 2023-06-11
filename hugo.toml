@@ -13,7 +13,7 @@ enableEmoji = true
 enableGitInfo = true
 
 [outputs]
-  home = [ "HTML", "RSS", "JSON", "SEARCH", "SEARCHPAGE"]
+  home = [ "HTML", "RSS",  "SEARCH", "SEARCHPAGE"]
   section = ["HTML", "RSS"]
   page = ["HTML", "RSS"]
 
