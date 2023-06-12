@@ -1,3 +1,11 @@
+.img {
+   object-fit: contain;
+   max-width: 100%;
+   max-height: 100%;
+   width: auto;
+   height: auto;
+}
+
 .home {
 
 }
@@ -5,7 +13,7 @@
 #body .flex-block-wrapper {
   max-width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  padding: 20px;
+  padding: 0px 20px 20px 20px;
   background: rgba(255, 255, 0, 0.02);
 }
 
