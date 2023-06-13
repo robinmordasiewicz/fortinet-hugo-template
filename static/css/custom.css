@@ -1,13 +1,29 @@
-.img {
-   object-fit: contain;
-   max-width: 100%;
-   max-height: 100%;
-   width: auto;
-   height: auto;
+.sidebaricon {
+  width: 24px;
+  vertical-align: middle;
 }
 
-.home {
+#sidebar .nav-title {
+  font-size: 1.5rem;
+  text-transform: unset;
+}
 
+#shortcuts {
+  border-style: solid;
+  border-width: 1px 0px 0px 0px;
+}
+
+#sidebar {
+  min-width: 16.75rem;
+  max-width: 16.75rem;
+  width: 16.75rem;
+}
+
+#body {
+  margin-inline-start: 16.75rem;
+  min-width: calc( 100% - 16.75rem);
+  max-width: calc( 100% - 16.75rem);
+  width: calc( 100% - 16.75rem);
 }
 
 #body .flex-block-wrapper {
@@ -17,25 +33,55 @@
   background: rgba(255, 255, 0, 0.02);
 }
 
+body:not(.print) #body .narrow .flex-block-wrapper {
+  width: calc( 81.25rem - 16.75rem - 2 * 3.75rem );
+  max-width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  padding: 0px 20px 20px 20px;
+  background: rgba(255, 255, 0, 0.02);
+}
+
+/* we limit width if we have large screens */
+@media screen and ( min-width: 81.25rem ){ /* #sidebar/width + ./max-width */
+    #body .flex-block-wrapper {
+        width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
+    }
+    body:not(.print) #body .narrow .flex-block-wrapper {
+        width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
+
+    }
+}
+
+body:not(.print) #body-inner.narrow h1 {
+font-size: 2.5rem;
+}
+
+body:not(.print) #body-inner.narrow p {
+font-size: 1rem;
+}
+
+body:not(.print) #body-inner.narrow {
+  padding: 20px 0rem 0rem 0rem;
+  margin-bottom: 40px;
+}
+
+.img {
+   object-fit: contain;
+   max-width: 100%;
+   max-height: 100%;
+   width: auto;
+   height: auto;
+}
+
 #body-inner {
   padding: 20px 0rem 0rem 0rem;
   margin-bottom: 40px;
 }
 
-@media screen and ( min-width: 81.25rem )
-#body .flex-block-wrapper {
-width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
-}
-
 h1 {
-text-align: left;
-text-transform: unset;
-}
-
-#sidebar {
-  min-width: 16.75rem;
-  max-width: 16.75rem;
-  width: 16.75rem;
+  font-size: 2.5rem;
+  text-align: left;
+  text-transform: unset;
 }
 
 .footer {
@@ -53,12 +99,6 @@ text-transform: unset;
   width: unset;
 }
 
-#body{
-  margin-inline-start: 16.75rem;
-  min-width: calc( 100% - 16.75rem);
-  max-width: calc( 100% - 16.75rem);
-  width: calc( 100% - 16.75rem);
-}
 
 img.socialicons {
   width: 22px;  

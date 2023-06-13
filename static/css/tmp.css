@@ -1,0 +1,30 @@
+#sidebar {
+    min-width: 16.75rem;
+    max-width: 16.75rem;
+    width: 16.75rem;
+}
+
+#body {
+    margin-inline-start: 16.75rem;
+    min-width: calc( 100% - 16.75rem);
+    max-width: calc( 100% - 16.75rem);
+    width: calc( 100% - 16.75rem);
+}
+
+#body .flex-block-wrapper {
+    max-width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
+}
+body:not(.print) #body .narrow .flex-block-wrapper {
+    max-width: calc( 81.25rem - 16.75rem - 2 * 9.75rem );
+}
+
+/* we limit width if we have large screens */
+@media screen and ( min-width: 81.25rem ){ /* #sidebar/width + ./max-width */
+    #body .flex-block-wrapper {
+        width: calc( 81.25rem - 16.75rem - 2 * 3.25rem );
+    }
+    body:not(.print) #body .narrow .flex-block-wrapper {
+        width: calc( 81.25rem - 16.75rem - 2 * 9.75rem );
+    
+    }
+}

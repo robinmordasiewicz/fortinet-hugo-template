@@ -3,74 +3,39 @@ title = "Fortinet Cloud Native Protection"
 
 languageCode = "en-US"
 defaultContentLanguage = "en"
-canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
-relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
-uglyURLs = true     # true -> basic/index.html -> basic.html
 theme = ["hugo-theme-relearn"]
-disableHugoGeneratorInject = true
-metaDataFormat = "yaml"
-defaultContentLanguageInSubdir= "false"
-enableEmoji = true
-enableGitInfo = true
 
-[outputs]
-  home = [ "HTML", "RSS",  "SEARCH", "SEARCHPAGE"]
-  section = ["HTML", "RSS"]
-  page = ["HTML", "RSS"]
 
-[markup]
-  [markup.highlight]
-    guessSyntax = false
-    noClasses = false
-    style = "native"
 
-  [markup.goldmark.renderer]
-    unsafe = true
+[[menu.shortcuts]]
+name = "<img src=/images/forticloud.svg class=sidebaricon></img> FortiCloud Login"
+url = "https://login.forticloud.com"
+weight = 1
 
-[Langauges]
-  landingPageName = "<i class='fas fa-home'></i> Home"
+[[menu.shortcuts]]
+name = "<img src=/images/forticnp.svg class=sidebaricon></img> FortiCNP Login"
+url = "https://login.forticloud.com"
+weight = 2
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-book-open'></i> Documentation"
+url = "https://docs.fortinet.com/document/forticnp/22.4.a/online-help/"
+weight = 3
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-fw fa-bookmark'></i> Knowledge Base"
+url = "https://community.fortinet.com/t5/FortiCNP/tkb-p/TKB38"
+weight = 4
 
 [params]
-  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md/edit/main/content/"
+  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md/edit/main/"
   logoBannerText="FortiCNP"
   logoBannerSubText="Version 22.4a"
   author = "Robin Mordasiewicz"
   description = "Fortinet Cloud Native Protection Presentation"
   themeVariant = "fortinet"
-  breadcrumbSeparator = ">"
-  disableSeoHiddenPages = true
-  mermaidZoom = true
-  landingPageUrl = "UserRepo"
-  # Fortinet specific variants are: "Workshop", "UseCase", "Demo", "Spotlight", "FortinetSilver", "FortinetTeal".  These change the top left logo background & add Text under the Logo
-  #themeVariant = "Workshop"
-
-  #Optional, By Default, the logo banner will match the Text from themeVariant Above
-  # If you would like to change the primary logo banner text, uncommenet logoBannerText Parameter and set to desired text.
-  #logoBannerText="Custom Logo Banner"
-
-  showVisitedLinks = true
   disableSearch = true
-  disableAssetsBusting = false
-  disableInlineCopyToClipBoard = false
-  disableShortcutsTitle = false
   disableLandingPageButton = true
-  disableLanguageSwitchingButton = true
-  disableBreadcrumb = false
-  disableToc = false
-  disableMathJax = true
-
-  customMathJaxURL = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-  mathJaxInitialize = "{}"
-  disableMermaid = false
-  mermaidInitialize = "{ \"theme\": \"default\" , \"securityLevel\": \"loose\" }"
-  disableSwagger = true
-  customSwaggerURL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
-  swaggerInitialize = "{ \"theme\": \"light\" }"
-  disableNextPrev = false
-  ordersectionsby = "weight"
-  titleSeparator = "-"
-  collapsibleMenu = true
-  additionalContentLanguage = [ "en" ]
-  disableExplicitIndexURLs = false
+  showVisitedLinks = true
   externalLinkTarget = "_blank"
-
+  collapsibleMenu = true
