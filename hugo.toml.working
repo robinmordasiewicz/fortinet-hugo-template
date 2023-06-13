@@ -1,10 +1,9 @@
+baseURL = "https://robinmordasiewicz.github.io/"
 title = "Fortinet Cloud Native Protection"
 
 languageCode = "en-US"
 defaultContentLanguage = "en"
 theme = ["hugo-theme-relearn"]
-
-uglyURLs = true     # true -> basic/index.html -> basic.html
 
 enableGitInfo = true
 

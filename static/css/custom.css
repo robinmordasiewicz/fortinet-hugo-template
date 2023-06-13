@@ -111,7 +111,7 @@ h1 {
   height: 30px;
   position: fixed;
   bottom: 0px;
-  width: calc(100% - 22.75em);
+  width: calc(100% - 22em);
 }
 
 #body #breadcrumbs {
