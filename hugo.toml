@@ -1,10 +1,14 @@
+
+baseURL = "https://robinmordasiewicz.github.io/fortinet-forticnp-hugo-md/"
 title = "Fortinet Cloud Native Protection"
+canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
+relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
 
 languageCode = "en-US"
 defaultContentLanguage = "en"
 theme = ["hugo-theme-relearn"]
 
-uglyURLs = true     # true -> basic/index.html -> basic.html
+uglyURLs = true
 
 enableGitInfo = true
 
