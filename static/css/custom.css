@@ -1,16 +1,37 @@
+.read-icon {
+  color:black;
+}
+
+#sidebar ul li > a .read-icon {
+  color:green !important;
+}
+
+svg:not(:root) {
+ height: 14px;
+ margin-left: 70px;
+ margin-bottom: 4px;
+}
+
+.resetvisited {
+  text-align: right;
+  background-color: unset;
+  padding-right: 8px;
+}
+
 .sidebaricon {
   width: 24px;
   vertical-align: middle;
 }
 
+#sidebar hr {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin: 2rem 1rem 0rem 1rem;
+}
+
 #sidebar .nav-title {
   font-size: 1.5rem;
   text-transform: unset;
-}
-
-#shortcuts {
-  border-style: solid;
-  border-width: 1px 0px 0px 0px;
 }
 
 #sidebar {
@@ -87,12 +108,12 @@ h1 {
 .footer {
   background-color: color(srgb 0.9568 0.9569 0.957);
   height: 30px;
-}
-
-#footer {
   position: fixed;
   bottom: 0px;
   width: calc(100% - 16.75em);
+}
+
+#footer {
 }
 
 #body #breadcrumbs {
