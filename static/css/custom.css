@@ -8,8 +8,7 @@
 
 svg:not(:root) {
  height: 14px;
- margin-left: 70px;
- margin-bottom: 4px;
+ margin: 5px 0px 0px 70px;
 }
 
 .resetvisited {
@@ -30,8 +29,10 @@ svg:not(:root) {
 }
 
 #sidebar .nav-title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-transform: unset;
+  line-height: 100% !important;
+  margin: .3rem 0 .5rem 0;
 }
 
 #sidebar {
@@ -110,16 +111,12 @@ h1 {
   height: 30px;
   position: fixed;
   bottom: 0px;
-  width: calc(100% - 16.75em);
-}
-
-#footer {
+  width: calc(100% - 22.75em);
 }
 
 #body #breadcrumbs {
   width: unset;
 }
-
 
 img.socialicons {
   width: 22px;  
