@@ -1,8 +1,9 @@
 
 baseURL = "https://robinmordasiewicz.github.io/fortinet-forticnp-hugo-md/"
 title = "Fortinet Cloud Native Protection"
-canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
-relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
+
+# canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
+# relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
 
 languageCode = "en-US"
 defaultContentLanguage = "en"
