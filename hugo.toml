@@ -11,11 +11,6 @@ uglyURLs = true
 enableGitInfo = true
 
 [params]
-  editURL = "https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md/edit/main/"
-  logoBannerText="FortiCNP"
-  logoBannerSubText="Version 22.4a"
-  author = "Robin Mordasiewicz"
-  description = "Fortinet Cloud Native Protection Presentation"
   themeVariant = "fortinet"
   disableSearch = true
   disableLandingPageButton = true
