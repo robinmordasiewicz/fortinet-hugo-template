@@ -8,7 +8,7 @@ relativeURLs = true # true -> rewrite all relative URLs to be relative to the cu
 enableGitInfo = true
 
 [params]
-  themeVariant = "fortinet"
+  themeVariant = "custom"
   disableSearch = true
   disableLandingPageButton = true
   showVisitedLinks = true
