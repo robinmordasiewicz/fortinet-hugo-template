@@ -5,9 +5,9 @@
 languageCode = "en-US"
 defaultContentLanguage = "en"
 theme = ["hugo-theme-relearn"]
-
 uglyURLs = true
-
+canonifyURLs = true # true -> all relative URLs would instead be canonicalized using baseURL
+relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
 enableGitInfo = true
 
 [params]
