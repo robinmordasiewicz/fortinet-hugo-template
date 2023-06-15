@@ -1,4 +1,4 @@
 .DS_Store
 .hugo_build.lock
 content/
-config/_default/*
+config/_default/*.toml
