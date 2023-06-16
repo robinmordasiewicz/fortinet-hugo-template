@@ -7,6 +7,9 @@
 {{- end }}
 <html lang="{{ .Page.Language | default "en" }}" dir="{{ T "Reading-direction" | default "ltr" }}">
   <head>
+  {{ if .Site.Params.GoogleAnalyticsID }}
+  {{ partial "google-analytics.html" . }}
+  {{ end }}
     {{- partial "meta.html" . }}
     {{- $page := . }}
     {{- $link := "<link href=\"%s\" rel=\"%s\" type=\"%s\" title=\"%s\">" }}
