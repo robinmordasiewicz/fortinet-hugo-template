@@ -7,7 +7,7 @@
 {{- end }}
 <html lang="{{ .Page.Language | default "en" }}" dir="{{ T "Reading-direction" | default "ltr" }}">
   <head>
-  {{ if .Site.Params.GoogleAnalyticsID }}
+  {{ if .Site.Params.googleAnalytics }}
   {{ partial "google-analytics.html" . }}
   {{ end }}
     {{- partial "meta.html" . }}
