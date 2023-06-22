@@ -2,3 +2,4 @@
 .hugo_build.lock
 content/
 config/_default/*.toml
+tts/
