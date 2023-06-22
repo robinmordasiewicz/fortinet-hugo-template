@@ -33,6 +33,8 @@ defaults:
     shell: bash
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
   job_id:
     # Add "id-token" with the intended permissions.
     permissions:
@@ -40,7 +42,14 @@ jobs:
       id-token: 'write'
 
     steps:
-    - id: 'auth'
+    - name: gh checkout
+      uses: 'actions/checkout@v3'
+
+    - name: Debug
+      uses: hmarr/debug-action@v2
+
+    - name: gcloud auth
+      id: 'auth'
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
@@ -53,3 +62,4 @@ jobs:
 
     - name: 'Use gcloud CLI'
       run: 'gcloud info'
+
