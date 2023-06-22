@@ -35,12 +35,6 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-  job_id:
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
     steps:
     - name: gh checkout
       uses: 'actions/checkout@v3'
