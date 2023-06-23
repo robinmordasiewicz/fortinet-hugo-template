@@ -74,6 +74,7 @@ jobs:
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
+          gcloud auth application-default print-access-token
           shopt -s globstar
           for i in **/*.ssml; do
             echo ""
