@@ -74,8 +74,12 @@ jobs:
             #        uses: 'google-github-actions/setup-gcloud@v1'
             #        with:
             #          version: '>= 363.0.0'
+      - name: 'Gcloud info'
+        run: 'gcloud info'
+      - name: 'Gcloud auth'
+        run: 'gcloud auth login'
       - name: 'Use gcloud CLI'
-        run: 'gcloud info && gcloud auth application-default print-access-token'
+        run: 'gcloud auth application-default print-access-token'
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
