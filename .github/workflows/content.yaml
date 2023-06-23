@@ -90,6 +90,8 @@ jobs:
             base64 -i tmp.txt --decode > ${i%.*}.wav && \
             rm tmp.txt ${i%.*}.json
           done
+      - name: debug
+        run: ls -la content/*
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to .gif
