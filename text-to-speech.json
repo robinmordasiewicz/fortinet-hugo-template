@@ -1,0 +1,19 @@
+{
+    'input':{
+        'ssml':'INSERTSSML
+               '
+    },
+    'voice':{
+        'languageCode':'en-US',
+        'name':'en-US-Neural2-J',
+        'ssmlGender':'MALE'
+    },
+    'audioConfig': {
+        'audioEncoding': 'LINEAR16',
+        'effectsProfileId': [
+            'small-bluetooth-speaker-class-device'
+        ],
+        'pitch': -1,
+        'speakingRate': 1
+  }
+}
