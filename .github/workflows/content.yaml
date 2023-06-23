@@ -82,6 +82,7 @@ jobs:
                  -H "Content-Type: application/json; charset=utf-8" \
                  -d @${i%.*}.json \
                  "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+            cat ${i%.*}.raw
             cat ${i%.*}.raw | grep 'audioContent' | \
             sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt && \
             base64 -i tmp.txt --decode > ${i%.*}.wav
