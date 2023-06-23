@@ -77,10 +77,10 @@ jobs:
           shopt -s globstar
           for i in **/*.ssml; do
             sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../text-to-speech.json > ${i%.*}.json
-            #curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
-            #     -H "Content-Type: application/json; charset=utf-8" \
-            #     -d @${i%.*}.json \
-            #     "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+            curl -v -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+                 -H "Content-Type: application/json; charset=utf-8" \
+                 -d @${i%.*}.json \
+                 "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
             #cat ${i%.*}.raw | grep 'audioContent' | \
             #sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt && \
             #base64 -i tmp.txt --decode > ${i%.*}.wav && \
