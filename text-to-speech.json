@@ -1,6 +1,10 @@
 {
     'input':{
-        'ssml':'\'INSERTSSML\''
+        'ssml':'
+
+        INSERTSSML
+
+        '
     },
     'voice':{
         'languageCode':'en-US',
