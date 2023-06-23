@@ -68,18 +68,9 @@ jobs:
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
+          token_format: 'access_token'
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
-            #      - name: 'Set up Cloud SDK'
-            #        uses: 'google-github-actions/setup-gcloud@v1'
-            #        with:
-            #          version: '>= 363.0.0'
-      - name: 'Gcloud info'
-        run: 'gcloud info'
-      - name: 'Gcloud auth'
-        run: 'gcloud auth login'
-      - name: 'Use gcloud CLI'
-        run: 'gcloud auth application-default print-access-token'
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
