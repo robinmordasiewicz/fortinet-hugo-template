@@ -93,19 +93,17 @@ jobs:
         run: ls -la content/*
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
-      - name: convert .mov to .gif
+      - name: convert .mov to webm
         working-directory: ./content
         run: |
           shopt -s globstar
           for i in **/*.mov; do
-            echo ""
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
             ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
             ffmpeg -y -i tmpout.mov -filter_complex "[0]pad=w=4+iw:h=4+ih:x=2:y=2:color=black" tmpout2.mov
             rm tmpout.mov
-            ffmpeg -y -i tmpout2.mov  -i ${i%.*}.wav -c:v copy -c:a aac tmpout3.mov
-            mv tmpout3.mov tmpout2.mov
+            [[ -f ${i%.*}.wav ]] && echo ffmpeg -y -i tmpout2.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout3.mov && mv tmpout3.mov tmpout2.mov
             ffmpeg -i tmpout2.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
             ffmpeg -i tmpout2.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
             rm tmpout2.mov
