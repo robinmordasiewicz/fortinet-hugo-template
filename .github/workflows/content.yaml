@@ -64,18 +64,18 @@ jobs:
         run: cp content/config.toml config/_default/hugo.toml
       - name: Copy Discussion Config
         run: cp content/params.toml config/_default/params.toml
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
-        with:
-          version: '>= 363.0.0'
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
       - name: 'Use gcloud CLI'
-        run: 'gcloud info'
+        run: 'gcloud info && gcloud auth application-default print-access-token'
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
