@@ -1,6 +1,7 @@
-.videobox {
-    border: 5px solid #000;
-    border-radius: 40px;
+video {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 40px;
 }
 
 .githubpages {
