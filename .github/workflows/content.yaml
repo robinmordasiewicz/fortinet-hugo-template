@@ -61,6 +61,23 @@ jobs:
           repository: robinmordasiewicz/fortinet-forticnp-hugo-md
           path: content
           ref: ${{ github.event.pull_request.head.ref }}
+      - name: Get all changed .mov
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content
+          separator: ","
+          files: |
+            **.ssml
+      - name: convert .mov to .gif
+        working-directory: ./content
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          IFS="," read -a myarray <<< ${{ steps.changed-files-specific.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+          done
       - name: Copy Site Config
         run: cp content/config.toml config/_default/hugo.toml
           #- name: Copy Discussion Config
