@@ -101,7 +101,7 @@ jobs:
             echo "Value: ${i%.*}"
             ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
             ffmpeg -y -i tmpout.mov -filter_complex "[0]pad=w=4+iw:h=4+ih:x=2:y=2:color=black" tmpout2.mov && mv tmpout2.mov tmpout.mov
-            [[ -f ${i%.*}.wav ]] && echo ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
+            [[ -f ${i%.*}.wav ]] && ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
             rm tmpout.mov
