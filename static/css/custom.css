@@ -1,3 +1,8 @@
+.videobox {
+    border: 5px solid #000;
+    border-radius: 40px;
+}
+
 .githubpages {
   text-align: center;
 }
