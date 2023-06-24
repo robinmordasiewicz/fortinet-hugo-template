@@ -64,7 +64,8 @@ jobs:
       - name: Copy Site Config
         run: cp content/config.toml config/_default/hugo.toml
       - name: Copy Discussion Config
-        run: [[ -f content/params.toml ]] && cp content/params.toml config/_default/params.toml
+        run: |
+          [[ -f content/params.toml ]] && cp content/params.toml config/_default/params.toml
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -86,8 +87,6 @@ jobs:
             base64 -i tmp.txt --decode > ${i%.*}.wav
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
-      - name: debug
-        run: ls -la content/*
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to webm
