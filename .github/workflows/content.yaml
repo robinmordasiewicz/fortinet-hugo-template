@@ -84,9 +84,9 @@ jobs:
                  "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
             ls -al
             cat ${i%.*}.raw
-            #cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
-            #base64 -i tmp.txt --decode > ${i%.*}.wav
-            #rm ${i%.*}.raw tmp.txt ${i%.*}.json
+            cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
+            base64 -i tmp.txt --decode > ${i%.*}.wav
+            rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
       - name: debug
         run: ls -la content/*
