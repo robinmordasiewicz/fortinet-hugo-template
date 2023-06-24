@@ -63,8 +63,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Copy Site Config
         run: cp content/config.toml config/_default/hugo.toml
-          #- name: Copy Discussion Config
-          #run: cp content/params.toml config/_default/params.toml
+      - name: Copy Discussion Config
+        run: [[ -f content/params.toml ]] && cp content/params.toml config/_default/params.toml
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -82,8 +82,6 @@ jobs:
                  -H "Content-Type: application/json; charset=utf-8" \
                  -d @${i%.*}.json \
                  "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
-            ls -al
-            cat ${i%.*}.raw
             cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
             base64 -i tmp.txt --decode > ${i%.*}.wav
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
