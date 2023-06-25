@@ -6,7 +6,25 @@ canonifyURLs = true # true -> all relative URLs would instead be canonicalized u
 relativeURLs = true # true -> rewrite all relative URLs to be relative to the current content
 enableGitInfo = true
 
+[[menu.shortcuts]]
+name = "<img src=/images/forticloud.svg class=sidebaricon></img> FortiCloud Login"
+url = "https://login.forticloud.com"
+weight = 1
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-book-open'></i> Documentation"
+url = "https://docs.fortinet.com"
+weight = 3
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-fw fa-bookmark'></i> Knowledge Base"
+url = "https://community.fortinet.com/"
+weight = 4
+
 [params]
+  editURL = "https://github.com/robinmordasiewicz/fortinet-hugo-theme/edit/main/"
+  logoBannerText="Fortinet"
+  logoBannerSubText="Cloud"
   googleAnalytics = 'G-D0GB95LVDG'
   themeVariant = "custom"
   disableSearch = true
