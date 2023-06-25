@@ -1,3 +1,6 @@
 [submodule "themes/hugo-theme-relearn"]
 	path = themes/hugo-theme-relearn
 	url = https://github.com/McShelby/hugo-theme-relearn.git
+[submodule "content/forticnp"]
+	path = content/forticnp
+	url = https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md.git
