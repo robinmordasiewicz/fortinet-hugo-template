@@ -1,7 +1,6 @@
 @import url("custom.css");
 
 :root {
-  --forticloudloginbutton: rgba( 194, 36, 25, 1 ); /* brand primary color */
   --PRIMARY-color: rgba( 194, 36, 25, 1 ); /* brand primary color */
   --SECONDARY-color: rgba( 99, 128, 208, 1 ); /* brand secondary color */
   --ACCENT-color: rgba( 255, 136, 255, 1 ); /* brand accent color, used for search highlights */
