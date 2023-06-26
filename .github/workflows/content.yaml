@@ -38,7 +38,7 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: false
     env:
       HUGO_VERSION: 0.113.0
     steps:
