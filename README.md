@@ -1,7 +1,2 @@
-clone the cms
-
-clone the content
-
-cp content/config.toml config/_default/
-
+# Fortinet Hugo Static Site Generator Template Repository
 
