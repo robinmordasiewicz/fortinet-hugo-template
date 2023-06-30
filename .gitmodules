@@ -4,6 +4,6 @@
 [submodule "content/forticnp"]
 	path = content/forticnp
 	url = https://github.com/robinmordasiewicz/fortinet-forticnp-hugo-md.git
-[submodule "content/secure-cloud-blueprint"]
-	path = content/secure-cloud-blueprint
+[submodule "content/fortinet-secure-cloud-blueprint"]
+	path = content/fortinet-secure-cloud-blueprint
 	url = https://github.com/robinmordasiewicz/fortinet-secure-cloud-blueprint.git
