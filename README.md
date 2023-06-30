@@ -1,2 +1,1 @@
-# Fortinet Hugo Static Site Generator Template Repository
-
+# Fortinet Hugo Static Site Generator Template
