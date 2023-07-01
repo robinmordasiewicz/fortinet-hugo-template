@@ -3,7 +3,7 @@
   commentable = {page = true, post = true, docs = false, project = false, publication = true, talk = false}
 
   [comments.giscus]
-    repo = "robinmordasiewicz/fortinet-hugo-theme"
+    repo = "robinmordasiewicz/fortinet-hugo-template"
     repo_id="R_kgDOJtwPUw"
     category = "Announcements"
     category_id="DIC_kwDOJtwPU84CXbqM"
