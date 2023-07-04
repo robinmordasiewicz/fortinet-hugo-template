@@ -199,7 +199,7 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ github.event.repository.homepage }}/"
-      - name: Upload artifact
+      - name: Upload GitHub Page
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./public
