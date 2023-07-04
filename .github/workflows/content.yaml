@@ -90,9 +90,12 @@ jobs:
           done
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
+        id: download
         with:
-          name: content
           path: content/
+          name: content
+      - name: debug 3
+        run: echo ${{steps.download.outputs.download-path}}
       - name: debug 2
         run: ls -alR content/
       - name: gcloud auth
@@ -191,7 +194,6 @@ jobs:
             ${{ runner.os }}-hugomod-
       - name: Build with Hugo
         env:
-          # For maximum backward compatibility with Hugo modules
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
@@ -204,7 +206,6 @@ jobs:
         with:
           path: ./public
 
-  # Deployment job
   deploy:
     environment:
       name: github-pages
