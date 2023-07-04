@@ -57,12 +57,18 @@ jobs:
           path: content/fortinet-forticnp
           repository: robinmordasiewicz/fortinet-forticnp
           fetch-depth: 0
+      - name: get forticnp sha
+        working-directory: ./content/fortinet-forticnp
+        run: git --no-pager log -1 --format="%H"
       - name: Checkout Content Azure
         uses: actions/checkout@v3
         with:
           path: content/fortinet-secure-cloud-blueprint
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
           fetch-depth: 0
+      - name: get forti-blueprint sha
+        working-directory: ./content/fortinet-secure-cloud-blueprint
+        run: git --no-pager log -1 --format="%H"
       - name: Get all changed .ssml
         id: changed-files-ssml
         uses: tj-actions/changed-files@v36
