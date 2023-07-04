@@ -14,7 +14,6 @@ on:
     branches:
       - main
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -23,29 +22,21 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
-# Default to bash
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
-          #      - name: Install Hugo CLI
-          #run: |
-          #wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-          #&& sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
@@ -96,6 +87,22 @@ jobs:
           token_format: 'access_token'
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
+      - name: convert .ssml to .wav fortinet-forticnp
+        working-directory: ./content/fortinet-forticnp
+        run: |
+          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../../text-to-speech.json > ${i%.*}.json
+            curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+                 -H "Content-Type: application/json; charset=utf-8" \
+                 -d @${i%.*}.json \
+                 "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+            cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
+            base64 -i tmp.txt --decode > ${i%.*}.wav
+            rm ${i%.*}.raw tmp.txt ${i%.*}.json
+          done
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
