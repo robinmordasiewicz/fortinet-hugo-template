@@ -99,8 +99,8 @@ jobs:
         with:
           name: webm-wav
           path: |
-            content/*.webm
-            content/*.wav
+            content/**/*.webm
+            content/**/*.wav
       - name: Setup Github Pages
         id: pages
         uses: actions/configure-pages@v3
