@@ -39,8 +39,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     continue-on-error: false
-    env:
-      HUGO_VERSION: 0.113.0
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
@@ -73,17 +71,15 @@ jobs:
         id: changed-files-ssml
         uses: tj-actions/changed-files@v36
         with:
-          path: ./content
+          path: ./content/fortinet-forticnp
           separator: ","
           files: |
             **/*.ssml
       - name: show changed ssml files
-        working-directory: ./content
+        working-directory: ./content/fortinet-forticnp
         if: steps.changed-files-ssml.outputs.any_changed == 'true'
         run: |
           IFS="," read -a myarray <<< ${{ steps.changed-files-specific.outputs.all_changed_files }}
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
