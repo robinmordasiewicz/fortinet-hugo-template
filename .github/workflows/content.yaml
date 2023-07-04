@@ -91,9 +91,7 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
         with:
-          name: content
           path: content/
-          if-no-files-found: warn
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
