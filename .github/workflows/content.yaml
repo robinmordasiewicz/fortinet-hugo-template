@@ -79,6 +79,15 @@ jobs:
           separator: ","
           files: |
             **.ssml
+      - name: display
+        working-directory: ./content/fortinet-forticnp
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+          done
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: gcloud auth
