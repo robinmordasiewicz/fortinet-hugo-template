@@ -65,23 +65,22 @@ jobs:
         with:
           path: content/fortinet-forticnp
           repository: robinmordasiewicz/fortinet-forticnp
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 2
+          fetch-depth: 0
       - name: Checkout Content Azure
         uses: actions/checkout@v3
         with:
           path: content/fortinet-secure-cloud-blueprint
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
-          token: ${{ secrets.GITHUB_TOKEN }}
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 2
+          fetch-depth: 0
       - name: Get all changed .ssml
         id: changed-files-ssml
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-forticnp
           separator: ","
+        run: |
+          ls -al
+          pwd
       - name: show changed ssml files
         working-directory: ./content/fortinet-forticnp
         run: |
