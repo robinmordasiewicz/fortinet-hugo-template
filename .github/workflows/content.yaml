@@ -69,23 +69,21 @@ jobs:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Get all changed .ssml
-        id: changed-files-ssml1
+        id: fortinet-forticnp
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-forticnp
           separator: ","
           files: |
             **.ssml
-            **/**.ssml
       - name: Get all changed .ssml
-        id: changed-files-ssml2
+        id: fortinet-secure-cloud-blueprint
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-secure-cloud-blueprint
           separator: ","
           files: |
             **.ssml
-            **/**.ssml
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -96,7 +94,7 @@ jobs:
       - name: convert .ssml to .wav fortinet-secure-cloud-blueprint
         working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
-          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml2.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.fortinet-secure-cloud-blueprint.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -112,7 +110,7 @@ jobs:
       - name: convert .ssml to .wav fortinet-forticnp
         working-directory: ./content/fortinet-forticnp
         run: |
-          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml1.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
