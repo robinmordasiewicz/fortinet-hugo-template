@@ -90,6 +90,9 @@ jobs:
           done
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
+        with:
+          name: artifacts
+          path: content/
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -168,7 +171,7 @@ jobs:
       - name: Archive webm wav artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: webm-artifacts
+          name: artifacts
           path: |
             content/**/*.webm
             content/**/*.wav
