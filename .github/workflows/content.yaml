@@ -69,9 +69,6 @@ jobs:
         with:
           path: ./content/fortinet-forticnp
           separator: ","
-        run: |
-          ls -al
-          pwd
       - name: show changed ssml files
         working-directory: ./content/fortinet-forticnp
         run: |
