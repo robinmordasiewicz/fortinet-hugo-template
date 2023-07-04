@@ -64,6 +64,25 @@ jobs:
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
+      - name: Get all changed .ssml
+        id: changed-files-ssml
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content
+          separator: ","
+          files: |
+            **/*.ssml
+      - name: show changed ssml files
+        working-directory: ./content
+        if: steps.changed-files-ssml.outputs.any_changed == 'true'
+        run: |
+          IFS="," read -a myarray <<< ${{ steps.changed-files-specific.outputs.all_changed_files }}
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+          done
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
