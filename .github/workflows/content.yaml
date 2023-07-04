@@ -93,6 +93,7 @@ jobs:
         with:
           name: content
           path: content/
+          if-no-files-found: warn
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
