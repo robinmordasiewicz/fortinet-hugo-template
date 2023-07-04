@@ -81,7 +81,7 @@ jobs:
             **.ssml
       - name: display
         working-directory: ./content/fortinet-forticnp
-        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        if: steps.fortinet-forticnp.outputs.any_changed == 'true'
         run: |
           IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
