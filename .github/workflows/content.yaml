@@ -75,11 +75,12 @@ jobs:
           separator: ","
           files: |
             **/*.ssml
+            *.ssml
       - name: show changed ssml files
         working-directory: ./content/fortinet-forticnp
         if: steps.changed-files-ssml.outputs.any_changed == 'true'
         run: |
-          IFS="," read -a myarray <<< ${{ steps.changed-files-specific.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
