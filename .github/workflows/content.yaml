@@ -66,6 +66,8 @@ jobs:
           path: content/fortinet-secure-cloud-blueprint
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
           fetch-depth: 0
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
       - name: get forti-blueprint sha
         working-directory: ./content/fortinet-secure-cloud-blueprint
         run: git --no-pager log -1 --format="%H"
@@ -155,8 +157,6 @@ jobs:
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-hugomod-
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
