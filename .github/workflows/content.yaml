@@ -58,13 +58,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: gcloud auth
-        id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          token_format: 'access_token'
-          workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Get all changed .ssml
@@ -86,6 +79,13 @@ jobs:
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
           done
+      - name: gcloud auth
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: convert .ssml to .wav
         working-directory: ./content
         run: |
