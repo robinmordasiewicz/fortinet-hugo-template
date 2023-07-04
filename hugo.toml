@@ -22,7 +22,7 @@ url = "https://community.fortinet.com/"
 weight = 4
 
 [params]
-  editURL = "https://github.com/robinmordasiewicz/fortinet-hugo-template/edit/main/"
+  editURL = "https://github.com/robinmordasiewicz/fortinet-hugo-template/content/"
   logoBannerText="Fortinet"
   logoBannerSubText="Cloud"
   googleAnalytics = 'G-D0GB95LVDG'
