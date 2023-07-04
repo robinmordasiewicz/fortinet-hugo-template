@@ -56,7 +56,7 @@ jobs:
       - name: Checkout Template Theme
         uses: actions/checkout@v3
         with:
-          # submodules: recursive
+          submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
@@ -67,6 +67,7 @@ jobs:
           repository: robinmordasiewicz/fortinet-forticnp
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - name: Checkout Content Azure
         uses: actions/checkout@v3
         with:
@@ -74,8 +75,7 @@ jobs:
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Download all workflow run artifacts
-        uses: actions/download-artifact@v3
+          fetch-depth: 0
       - name: Get all changed .ssml
         id: changed-files-ssml
         uses: tj-actions/changed-files@v36
@@ -151,6 +151,8 @@ jobs:
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-hugomod-
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
