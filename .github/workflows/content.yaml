@@ -60,7 +60,7 @@ jobs:
       - name: get forticnp sha
         working-directory: ./content/fortinet-forticnp
         run: git --no-pager log -1 --format="%H"
-      - name: Checkout Content Azure
+      - name: Checkout Content fortinet-secure-cloud-blueprint
         uses: actions/checkout@v3
         with:
           path: content/fortinet-secure-cloud-blueprint
@@ -68,23 +68,18 @@ jobs:
           fetch-depth: 0
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
-      - name: get forti-blueprint sha
-        working-directory: ./content/fortinet-secure-cloud-blueprint
-        run: git --no-pager log -1 --format="%H"
       - name: Get all changed .ssml
-        id: changed-files-ssml
+        id: changed-files-ssml1
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-forticnp
           separator: ","
-      - name: show changed ssml files
-        working-directory: ./content/fortinet-forticnp
-        run: |
-          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml.outputs.all_changed_files }}
-          for i in "${myarray[@]}"; do
-            echo "Value: ${i}"
-            echo "Value: ${i%.*}"
-          done
+      - name: Get all changed .ssml
+        id: changed-files-ssml2
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/fortinet-secure-cloud-blueprint
+          separator: ","
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -92,10 +87,10 @@ jobs:
           token_format: 'access_token'
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
-      - name: convert .ssml to .wav fortinet-forticnp
-        working-directory: ./content/fortinet-forticnp
+      - name: convert .ssml to .wav fortinet-secure-cloud-blueprint
+        working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
-          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml2.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -108,12 +103,14 @@ jobs:
             base64 -i tmp.txt --decode > ${i%.*}.wav
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
-      - name: convert .ssml to .wav
-        working-directory: ./content
+      - name: convert .ssml to .wav fortinet-forticnp
+        working-directory: ./content/fortinet-forticnp
         run: |
-          shopt -s globstar
-          for i in **/*.ssml; do
-            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../text-to-speech.json > ${i%.*}.json
+          IFS="," read -a myarray <<< ${{ steps.changed-files-ssml1.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../../text-to-speech.json > ${i%.*}.json
             curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
                  -H "Content-Type: application/json; charset=utf-8" \
                  -d @${i%.*}.json \
@@ -122,6 +119,20 @@ jobs:
             base64 -i tmp.txt --decode > ${i%.*}.wav
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
+          #      - name: convert .ssml to .wav
+          #working-directory: ./content
+          #run: |
+          #shopt -s globstar
+          #for i in **/*.ssml; do
+          #  sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../text-to-speech.json > ${i%.*}.json
+          #  curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+          #       -H "Content-Type: application/json; charset=utf-8" \
+          #       -d @${i%.*}.json \
+          #       "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+          #  cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
+          #  base64 -i tmp.txt --decode > ${i%.*}.wav
+          #  rm ${i%.*}.raw tmp.txt ${i%.*}.json
+          #done
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to webm
@@ -141,7 +152,7 @@ jobs:
       - name: Archive webm wav artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: webm-wav
+          name: webm-wav-artifacts
           path: |
             content/**/*.webm
             content/**/*.wav
