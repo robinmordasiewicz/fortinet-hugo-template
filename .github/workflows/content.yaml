@@ -131,6 +131,24 @@ jobs:
             base64 -i tmp.txt --decode > ${i%.*}.wav
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
+      - name: Missing wav files
+        working-directory: ./content
+        run: |
+          shopt -s globstar
+          for i in **/*.ssml; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            if [[ -f ${i%.*}.ssml ] && [ ! -f ${i%.*}.wav ]]; then
+              sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../../text-to-speech.json > ${i%.*}.json
+              curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+                   -H "Content-Type: application/json; charset=utf-8" \
+                   -d @${i%.*}.json \
+                   "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+              cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
+              base64 -i tmp.txt --decode > ${i%.*}.wav
+              rm ${i%.*}.raw tmp.txt ${i%.*}.json
+            fi
+          done
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to webm
@@ -150,7 +168,7 @@ jobs:
       - name: Archive webm wav artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: webm-wav-artifacts
+          name: webm-artifacts
           path: |
             content/**/*.webm
             content/**/*.wav
