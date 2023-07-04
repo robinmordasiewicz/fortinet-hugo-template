@@ -74,12 +74,18 @@ jobs:
         with:
           path: ./content/fortinet-forticnp
           separator: ","
+          files: |
+            **.ssml
+            **/**.ssml
       - name: Get all changed .ssml
         id: changed-files-ssml2
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-secure-cloud-blueprint
           separator: ","
+          files: |
+            **.ssml
+            **/**.ssml
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
