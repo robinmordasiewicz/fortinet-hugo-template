@@ -141,7 +141,7 @@ jobs:
           for i in **/*.ssml; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
-            if [[ -f ${i%.*}.ssml ] && [ ! -f ${i%.*}.wav ]]; then
+            if [[ -f ${i%.*}.ssml  &&  ! -f ${i%.*}.wav ]]; then
               sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ../../text-to-speech.json > ${i%.*}.json
               curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
                    -H "Content-Type: application/json; charset=utf-8" \
