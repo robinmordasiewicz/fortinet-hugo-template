@@ -56,8 +56,24 @@ jobs:
       - name: Checkout Template Theme
         uses: actions/checkout@v3
         with:
-          submodules: recursive
-          fetch-depth: 2
+          # submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Checkout Content CNP
+        uses: actions/checkout@v3
+        with:
+          path: content/fortinet-forticnp
+          repository: robinmordasiewicz/fortinet-forticnp
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Checkout Content Azure
+        uses: actions/checkout@v3
+        with:
+          path: content/fortinet-secure-cloud-blueprint
+          repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
       - name: Get all changed .ssml
