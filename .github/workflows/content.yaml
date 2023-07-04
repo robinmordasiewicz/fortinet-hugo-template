@@ -92,6 +92,12 @@ jobs:
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
             rm tmpout.mov
           done
+      - name: Archive webm artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: webm
+          path: |
+            content/*.webm
       - name: Setup Github Pages
         id: pages
         uses: actions/configure-pages@v3
