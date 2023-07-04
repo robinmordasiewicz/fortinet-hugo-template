@@ -92,6 +92,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: content/
+      - name: debug 2
+        run: ls -alR content/
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
