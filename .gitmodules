@@ -1,3 +1,9 @@
 [submodule "themes/hugo-theme-relearn"]
 	path = themes/hugo-theme-relearn
 	url = https://github.com/McShelby/hugo-theme-relearn.git
+[submodule "content/fortinet-forticnp"]
+	path = content/fortinet-forticnp
+	url = https://github.com/robinmordasiewicz/fortinet-forticnp.git
+[submodule "content/fortinet-secure-cloud-blueprint"]
+	path = content/fortinet-secure-cloud-blueprint
+	url = https://github.com/robinmordasiewicz/fortinet-secure-cloud-blueprint
