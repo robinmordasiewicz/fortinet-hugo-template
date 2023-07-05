@@ -46,8 +46,8 @@ jobs:
       - name: Checkout Content
         uses: actions/checkout@v3
         with:
-          path: content/${{ matrix.repo }
-          repository: robinmordasiewicz/${{ matrix.repo }
+          path: content/${{ matrix.repo }}
+          repository: robinmordasiewicz/${{ matrix.repo }}
           fetch-depth: 0
             #      - name: Checkout Content fortinet-forticnp
             #        uses: actions/checkout@v3
