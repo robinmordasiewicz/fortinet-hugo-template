@@ -72,9 +72,7 @@ jobs:
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           name: ${{ matrix.repo }}-content
-          name_is_regexp: true
-          check_artifacts: false
-          search_artifacts: true
+          name_is_regexp: false
           if_no_artifact_found: warn
       - name: gcloud auth
         id: 'auth'
@@ -119,6 +117,7 @@ jobs:
             fi
           done
       - name: Setup FFmpeg
+        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true'
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to .webm
         if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true'
@@ -147,8 +146,8 @@ jobs:
         with:
           name: ${{ matrix.repo }}-content
           path: |
-            content/**/*.webm
-            content/**/*.wav
+            content/${{ matrix.repo }}/**/*.webm
+            content/${{ matrix.repo }}/**/*.wav
 
   hugo_build:
     runs-on: ubuntu-latest
@@ -175,15 +174,12 @@ jobs:
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
           fetch-depth: 0
       - name: Download artifact
-        id: artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           name: -content
           name_is_regexp: true
-          check_artifacts: false
-          search_artifacts: true
           if_no_artifact_found: warn
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
