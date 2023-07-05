@@ -163,6 +163,8 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
+          name_is_regexp: true
+          name: content
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           if_no_artifact_found: warn
