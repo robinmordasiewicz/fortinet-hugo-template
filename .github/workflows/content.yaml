@@ -167,7 +167,7 @@ jobs:
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to .webm fortinet-secure-cloud-blueprint
-        if: steps.fortinet-secure-cloud-blueprint-mov.outputs.any_changed == 'true'
+        if: steps.fortinet-secure-cloud-blueprint-mov.outputs.any_changed == 'true' || steps.fortinet-secure-cloud-blueprint-ssml.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
           IFS=, read -ra ssml_arr <<< ${{ steps.fortinet-secure-cloud-blueprint-ssml.outputs.all_changed_files }}
@@ -189,7 +189,7 @@ jobs:
             rm tmpout.mov
           done
       - name: convert .mov to .webm fortinet-forticnp
-        if: steps.fortinet-forticnp-mov.outputs.any_changed == 'true'
+        if: steps.fortinet-forticnp-mov.outputs.any_changed == 'true' || steps.fortinet-forticnp-ssml.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-forticnp
         run: |
           IFS=, read -ra ssml_arr <<< ${{ steps.fortinet-forticnp-ssml.outputs.all_changed_files }}
