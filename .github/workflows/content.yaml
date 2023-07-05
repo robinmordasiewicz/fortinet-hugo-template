@@ -36,10 +36,9 @@ jobs:
       matrix:
         repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
     steps:
-      - name: Checkout Template Theme
+      - name: Checkout Hugo Template
         uses: actions/checkout@v3
         with:
-          submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
