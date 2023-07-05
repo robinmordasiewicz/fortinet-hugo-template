@@ -160,18 +160,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Checkout Content fortinet-forticnp
-        uses: actions/checkout@v3
-        with:
-          path: content/fortinet-forticnp
-          repository: robinmordasiewicz/fortinet-forticnp
-          fetch-depth: 0
-      - name: Checkout Content fortinet-secure-cloud-blueprint
-        uses: actions/checkout@v3
-        with:
-          path: content/fortinet-secure-cloud-blueprint
-          repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
-          fetch-depth: 0
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
