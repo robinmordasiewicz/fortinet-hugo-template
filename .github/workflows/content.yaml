@@ -62,7 +62,7 @@ jobs:
           repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
           fetch-depth: 0
       - name: Get all changed .ssml
-        id: fortinet-forticnp
+        id: fortinet-forticnp-ssml
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-forticnp
@@ -70,22 +70,29 @@ jobs:
           files: |
             **.ssml
       - name: Get all changed .ssml
-        id: fortinet-secure-cloud-blueprint
+        id: fortinet-secure-cloud-blueprint-ssml
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/fortinet-secure-cloud-blueprint
           separator: ","
           files: |
             **.ssml
-      - name: display
-        working-directory: ./content/fortinet-forticnp
-        if: steps.fortinet-forticnp.outputs.any_changed == 'true'
-        run: |
-          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp.outputs.all_changed_files }}
-          for i in "${myarray[@]}"; do
-            echo "Value: ${i}"
-            echo "Value: ${i%.*}"
-          done
+      - name: Get all changed .mov
+        id: fortinet-forticnp-mov
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/fortinet-forticnp
+          separator: ","
+          files: |
+            **.mov
+      - name: Get all changed .mov
+        id: fortinet-secure-cloud-blueprint-mov
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/fortinet-secure-cloud-blueprint
+          separator: ","
+          files: |
+            **.mov
       - name: Download artifact
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
@@ -98,16 +105,6 @@ jobs:
           check_artifacts: false
           search_artifacts: true
           if_no_artifact_found: warn
-#      - name: Download all workflow run artifacts
-#        uses: actions/download-artifact@v3
-#        id: download
-#        with:
-#          path: content/
-#          name: content
-      - name: debug 3
-        run: echo ${{steps.download.outputs.download-path}}
-      - name: debug 2
-        run: ls -alR content/
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -116,10 +113,10 @@ jobs:
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: convert .ssml to .wav fortinet-secure-cloud-blueprint
-        if: steps.fortinet-secure-cloud-blueprint.outputs.any_changed == 'true'
+        if: steps.fortinet-secure-cloud-blueprint-ssml.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
-          IFS="," read -a myarray <<< ${{ steps.fortinet-secure-cloud-blueprint.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.fortinet-secure-cloud-blueprint-ssml.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -133,10 +130,10 @@ jobs:
             rm ${i%.*}.raw tmp.txt ${i%.*}.json
           done
       - name: convert .ssml to .wav fortinet-forticnp
-        if: steps.fortinet-forticnp.outputs.any_changed == 'true'
+        if: steps.fortinet-forticnp-ssml.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-forticnp
         run: |
-          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp-ssml.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -169,15 +166,29 @@ jobs:
           done
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
-      - name: convert .mov to webm
-        working-directory: ./content
+      - name: convert .mov to .webm fortinet-secure-cloud-blueprint
+        if: steps.fortinet-secure-cloud-blueprint-mov.outputs.any_changed == 'true'
+        working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
-          shopt -s globstar
-          for i in **/*.mov; do
+          IFS="," read -a myarray <<< ${{ steps.fortinet-secure-cloud-blueprint-mov.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
             ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
-            #ffmpeg -y -i tmpout.mov -filter_complex "[0]pad=w=4+iw:h=4+ih:x=2:y=2:color=black" tmpout2.mov && mv tmpout2.mov tmpout.mov
+            [[ -f ${i%.*}.wav ]] && ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
+            rm tmpout.mov
+          done
+      - name: convert .mov to .webm fortinet-forticnp
+        if: steps.fortinet-forticnp-mov.outputs.any_changed == 'true'
+        working-directory: ./content/fortinet-forticnp
+        run: |
+          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp-mov.outputs.all_changed_files }}
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
             [[ -f ${i%.*}.wav ]] && ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
