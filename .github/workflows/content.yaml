@@ -32,16 +32,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     continue-on-error: false
+    strategy:
+      matrix:
+        repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
     steps:
-      - name: Debug
-        uses: hmarr/debug-action@v2
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: 'latest'
-          extended: true
-      - name: Install Dart Sass Embedded
-        run: sudo snap install dart-sass-embedded
       - name: Checkout Template Theme
         uses: actions/checkout@v3
         with:
@@ -49,18 +43,24 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Checkout Content fortinet-forticnp
+      - name: Checkout Content
         uses: actions/checkout@v3
         with:
-          path: content/fortinet-forticnp
-          repository: robinmordasiewicz/fortinet-forticnp
+          path: content/${{ matrix.repo }
+          repository: robinmordasiewicz/${{ matrix.repo }
           fetch-depth: 0
-      - name: Checkout Content fortinet-secure-cloud-blueprint
-        uses: actions/checkout@v3
-        with:
-          path: content/fortinet-secure-cloud-blueprint
-          repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
-          fetch-depth: 0
+            #      - name: Checkout Content fortinet-forticnp
+            #        uses: actions/checkout@v3
+            #        with:
+            #          path: content/fortinet-forticnp
+            #          repository: robinmordasiewicz/fortinet-forticnp
+            #          fetch-depth: 0
+            #      - name: Checkout Content fortinet-secure-cloud-blueprint
+            #        uses: actions/checkout@v3
+            #        with:
+            #          path: content/fortinet-secure-cloud-blueprint
+            #          repository: robinmordasiewicz/fortinet-secure-cloud-blueprint
+            #          fetch-depth: 0
       - name: Get all changed .ssml
         id: fortinet-forticnp-ssml
         uses: tj-actions/changed-files@v36
@@ -217,6 +217,13 @@ jobs:
           path: |
             content/**/*.webm
             content/**/*.wav
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+      - name: Install Dart Sass Embedded
+        run: sudo snap install dart-sass-embedded
       - name: Setup Github Pages
         id: pages
         uses: actions/configure-pages@v3
