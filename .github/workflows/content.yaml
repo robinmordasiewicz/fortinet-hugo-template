@@ -50,7 +50,7 @@ jobs:
           repository: robinmordasiewicz/${{ matrix.repo }}
           fetch-depth: 0
       - name: Get all changed .ssml
-        id: ${{ matrix.repo }}-ssml
+        id: ssml
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/${{ matrix.repo }}
@@ -58,7 +58,7 @@ jobs:
           files: |
             **.ssml
       - name: Get all changed .mov
-        id: ${{ matrix.repo }}-mov
+        id: mov
         uses: tj-actions/changed-files@v36
         with:
           path: ./content/${{ matrix.repo }}
@@ -66,7 +66,7 @@ jobs:
           files: |
             **.mov
       - name: Download artifact
-        id: ${{ matrix.repo }}-artifact
+        id: artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow_conclusion: success
@@ -84,10 +84,10 @@ jobs:
           workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: convert .ssml to .wav
-        if: steps.${{ matrix.repo }}-ssml.outputs.any_changed == 'true'
+        if: steps.ssml.outputs.any_changed == 'true'
         working-directory: ./content/${{ matrix.repo }}
         run: |
-          IFS="," read -a myarray <<< ${{ steps.${{ matrix.repo }}-ssml.outputs.all_changed_files }}
+          IFS="," read -a myarray <<< ${{ steps.ssml.outputs.all_changed_files }}
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -121,16 +121,16 @@ jobs:
       - name: Setup FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
       - name: convert .mov to .webm
-        if: steps.${{ matrix.repo }}-mov.outputs.any_changed == 'true' || steps.${{ matrix.repo }}-ssml.outputs.any_changed == 'true'
+        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true'
         working-directory: ./content/${{ matrix.repo }}
         run: |
-          IFS=, read -ra ssml_arr <<< "${{ steps.${{ matrix.repo }}-ssml.outputs.all_changed_files }}"
+          IFS=, read -ra ssml_arr <<< "${{ steps.ssml.outputs.all_changed_files }}"
           movtmp_arr=()
           for value in "${ssml_arr[@]}"
           do
             movtmp_arr+=("`echo $value | sed -e 's/\.ssml$/.mov/'`")
           done
-          IFS=, read -ra mov_arr <<< "${{ steps.${{ matrix.repo }}-mov.outputs.all_changed_files }}"
+          IFS=, read -ra mov_arr <<< "${{ steps.mov.outputs.all_changed_files }}"
           myarray=( "${movtmp_arr[@]}" "${mov_arr[@]}" )
           IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
           for i in "${myarray[@]}"; do
