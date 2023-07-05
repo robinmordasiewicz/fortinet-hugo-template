@@ -178,8 +178,6 @@ jobs:
         with:
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
-          name: "*-content"
-          name_is_regexp: true
           if_no_artifact_found: warn
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
