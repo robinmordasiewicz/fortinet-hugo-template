@@ -170,7 +170,15 @@ jobs:
         if: steps.fortinet-secure-cloud-blueprint-mov.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-secure-cloud-blueprint
         run: |
-          IFS="," read -a myarray <<< ${{ steps.fortinet-secure-cloud-blueprint-mov.outputs.all_changed_files }}
+          IFS=, read -ra ssml_arr <<< ${{ steps.fortinet-secure-cloud-blueprint-ssml.outputs.all_changed_files }
+          movtmp_arr=()
+          for value in "${ssml_arr[@]}"
+          do
+            movtmp_arr+=("`echo $value | sed -e 's/\.ssml$/.mov/'`")
+          done
+          IFS=, read -ra mov_arr <<< ${{ steps.fortinet-secure-cloud-blueprint-mov.outputs.all_changed_files }
+          myarray=( "${movtmp_arr[@]}" "${mov_arr[@]}" )
+          IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
@@ -184,7 +192,15 @@ jobs:
         if: steps.fortinet-forticnp-mov.outputs.any_changed == 'true'
         working-directory: ./content/fortinet-forticnp
         run: |
-          IFS="," read -a myarray <<< ${{ steps.fortinet-forticnp-mov.outputs.all_changed_files }}
+          IFS=, read -ra ssml_arr <<< ${{ steps.fortinet-forticnp-ssml.outputs.all_changed_files }
+          movtmp_arr=()
+          for value in "${ssml_arr[@]}"
+          do
+            movtmp_arr+=("`echo $value | sed -e 's/\.ssml$/.mov/'`")
+          done
+          IFS=, read -ra mov_arr <<< ${{ steps.fortinet-forticnp-mov.outputs.all_changed_files }
+          myarray=( "${movtmp_arr[@]}" "${mov_arr[@]}" )
+          IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
