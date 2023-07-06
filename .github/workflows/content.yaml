@@ -48,19 +48,19 @@ jobs:
           path: content/${{ matrix.repo }}
           repository: robinmordasiewicz/${{ matrix.repo }}
           fetch-depth: 0
-      - name: Get all changed .ssml
-        id: ssml
-        uses: tj-actions/changed-files@v36
-        with:
-          path: ./content/${{ matrix.repo }}
-          separator: ","
-          files: |
-            **.ssml
-      - name: Get all changed .mov
-        id: mov
-        uses: tj-actions/changed-files@v36
-        with:
-          path: ./content/${{ matrix.repo }}
-          separator: ","
-          files: |
-            **.mov
+#      - name: Get all changed .ssml
+#        id: ssml
+#        uses: tj-actions/changed-files@v36
+#        with:
+#          path: ./content/${{ matrix.repo }}
+#          separator: ","
+#          files: |
+#            **.ssml
+#      - name: Get all changed .mov
+#        id: mov
+#        uses: tj-actions/changed-files@v36
+#        with:
+#          path: ./content/${{ matrix.repo }}
+#          separator: ","
+#          files: |
+#            **.mov
