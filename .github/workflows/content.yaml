@@ -48,6 +48,8 @@ jobs:
         #repo: ${{ fromJSON(needs.say_hello.outputs.services) }}
         #repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
     steps:
+      - name: Debug
+        uses: hmarr/debug-action@v2
       - name: Checkout
         uses: actions/checkout@v3
         with:
