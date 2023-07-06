@@ -87,13 +87,6 @@ jobs:
           name_is_regexp: false
           if_no_artifact_found: warn
           path: content/
-      - name: gcloud auth
-        id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          token_format: 'access_token'
-          workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: Check for missing wav files
         id: check-missing
         working-directory: ./content/${{ matrix.repo }}
@@ -108,6 +101,14 @@ jobs:
           done
           ssml_list=`echo ${ssml_list} | sed -e 's/,$//' | sed -e 's/^,//'`
           echo "ssml_list=$(echo $ssml_list)" >> $GITHUB_OUTPUT
+      - name: gcloud auth
+        if: steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ vars.SERVICE_ACCOUNT }}'
       - name: convert .ssml to .wav
         if: steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
         working-directory: ./content/${{ matrix.repo }}
@@ -157,6 +158,7 @@ jobs:
             rm tmpout.mov
           done
       - name: Archive webm wav artifacts
+        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.repo }}
