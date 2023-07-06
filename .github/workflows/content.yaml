@@ -182,24 +182,21 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-#      - name: Download artifact
-#        uses: dawidd6/action-download-artifact@v2
-#        with:
-#          name_is_regexp: true
-#          name: fortinet
-#          commit: ${{github.event.pull_request.head.sha}}
-#          if_no_artifact_found: warn
-#          path: content/
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          search_artifacts: true
-          check_artifacts: true
-          name_is_regexp: true
-          name: fortinet
-          workflow_conclusion: ""
           if_no_artifact_found: warn
           path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: true
+#          name: fortinet
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
 #      - name: Download artifact
 #        uses: dawidd6/action-download-artifact@v2
 #        with:
