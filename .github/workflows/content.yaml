@@ -68,7 +68,7 @@ jobs:
         id: artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
-          commit: ${{github.event.pull_request.head.sha}}
+          workflow_conclusion: ""
           name: ${{ matrix.repo }}
           name_is_regexp: false
           if_no_artifact_found: warn
@@ -180,7 +180,7 @@ jobs:
         with:
           name_is_regexp: false
           name: fortinet-forticnp
-          commit: ${{github.event.pull_request.head.sha}}
+          workflow_conclusion: ""
           if_no_artifact_found: warn
           path: content/
       - name: Download artifact
@@ -188,7 +188,7 @@ jobs:
         with:
           name_is_regexp: false
           name: fortinet-secure-cloud-blueprint
-          commit: ${{github.event.pull_request.head.sha}}
+          workflow_conclusion: ""
           if_no_artifact_found: warn
           path: content/
       - name: debug
