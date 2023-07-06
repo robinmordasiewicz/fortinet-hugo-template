@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
+      - name: debug2
+        run: pwd
       - name: Checkout
         uses: actions/checkout@v3
         with:
