@@ -74,6 +74,7 @@ jobs:
           name: ${{ matrix.repo }}
           name_is_regexp: false
           if_no_artifact_found: warn
+          path: content/
       - name: debug
         run: ls -alR content/
       - name: gcloud auth
@@ -154,10 +155,10 @@ jobs:
         with:
           name: ${{ matrix.repo }}
           path: |
-            conten*/${{ matrix.repo }}/**/**.webm
-            conten*/${{ matrix.repo }}/**/**.wav
-            conten*/${{ matrix.repo }}/**/*.webm
-            conten*/${{ matrix.repo }}/**/*.wav
+            content/${{ matrix.repo }}*/**/**.webm
+            content/${{ matrix.repo }}*/**/**.wav
+            content/${{ matrix.repo }}*/**/*.webm
+            content/${{ matrix.repo }}*/**/*.wav
 
   hugo_build:
     runs-on: ubuntu-latest
