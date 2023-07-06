@@ -39,23 +39,24 @@ jobs:
       - name: Checkout Hugo Template
         uses: actions/checkout@v3
         with:
+          submodules: 'true'
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Checkout Content
-        uses: actions/checkout@v3
-        with:
-          path: content/${{ matrix.repo }}
-          repository: robinmordasiewicz/${{ matrix.repo }}
-          fetch-depth: 0
-#      - name: Get all changed .ssml
-#        id: ssml
-#        uses: tj-actions/changed-files@v36
+#      - name: Checkout Content
+#        uses: actions/checkout@v3
 #        with:
-#          path: ./content/${{ matrix.repo }}
-#          separator: ","
-#          files: |
-#            **.ssml
+#          path: content/${{ matrix.repo }}
+#          repository: robinmordasiewicz/${{ matrix.repo }}
+#          fetch-depth: 0
+      - name: Get all changed .ssml
+        id: ssml
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/${{ matrix.repo }}
+          separator: ","
+          files: |
+            **.ssml
 #      - name: Get all changed .mov
 #        id: mov
 #        uses: tj-actions/changed-files@v36
