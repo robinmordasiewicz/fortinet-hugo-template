@@ -98,7 +98,6 @@ jobs:
           done
           ssml_list=`echo ${ssml_list} | sed -e 's/,$//' | sed -e 's/^,//'`
           echo "ssml_list=$(echo $ssml_list)" >> $GITHUB_OUTPUT
-          echo "ssml_list=$(echo $ssml_list)"
       - name: convert .ssml to .wav
         if: steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
         working-directory: ./content/${{ matrix.repo }}
@@ -221,28 +220,28 @@ jobs:
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-hugomod-
-#      - name: Build with Hugo
-#        env:
-#          HUGO_ENVIRONMENT: production
-#          HUGO_ENV: production
-#        run: |
-#          hugo \
-#            --gc \
-#            --minify \
-#            --baseURL "${{ github.event.repository.homepage }}/"
-#      - name: Upload GitHub Page
-#        uses: actions/upload-pages-artifact@v1
-#        with:
-#          path: ./public
+      - name: Build with Hugo
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ github.event.repository.homepage }}/"
+      - name: Upload GitHub Page
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./public
 
-#  deploy:
-#    environment:
-#      name: github-pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    runs-on: ubuntu-latest
-#    needs: hugo_build
-#    steps:
-#      - name: Deploy to GitHub Pages
-#        id: deployment
-#        uses: actions/deploy-pages@v2
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: hugo_build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
 
