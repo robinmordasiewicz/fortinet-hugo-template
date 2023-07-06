@@ -118,7 +118,7 @@ jobs:
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
-            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ${{ GITHUB_WORKSPACE }}/text-to-speech.json > ${i%.*}.json
+            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ${GITHUB_WORKSPACE}/text-to-speech.json > ${i%.*}.json
             curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
                  -H "Content-Type: application/json; charset=utf-8" \
                  -d @${i%.*}.json \
