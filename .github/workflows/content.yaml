@@ -74,6 +74,9 @@ jobs:
           name: ${{ matrix.repo }}
           name_is_regexp: false
           if_no_artifact_found: warn
+          path: content/
+      - name: debug
+        run: ls -alR content/
       - name: gcloud auth
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
