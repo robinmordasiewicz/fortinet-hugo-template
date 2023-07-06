@@ -158,7 +158,7 @@ jobs:
             rm tmpout.mov
           done
       - name: Archive webm wav artifacts
-        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        #if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.repo }}
