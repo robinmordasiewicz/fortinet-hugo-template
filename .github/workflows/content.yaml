@@ -35,7 +35,9 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
-      run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"fortinet-forticnp\"},{\"project\":\"fortinet-secure-cloud-blueprint\"}]}"
+      run: |
+        git config --file .gitmodules --get-regexp path | grep 'content' | awk '{ print $2 }' | cut -f 2- -d "/"
+        echo "::set-output name=matrix::{\"include\":[{\"project\":\"fortinet-forticnp\"},{\"project\":\"fortinet-secure-cloud-blueprint\"}]}"
 
   create_artifacts:
     runs-on: ubuntu-latest
@@ -43,9 +45,10 @@ jobs:
       - job1
     continue-on-error: false
     strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+      matrix: 
+        repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
+        # ${{fromJson(needs.job1.outputs.matrix)}}
         #repo: ${{ fromJSON(needs.say_hello.outputs.services) }}
-        #repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
@@ -192,20 +195,30 @@ jobs:
           search_artifacts: true
           check_artifacts: true
           name_is_regexp: false
-          name: fortinet-forticnp
+          name: ${{ matrix.repo }}
           workflow_conclusion: ""
           if_no_artifact_found: warn
           path: content/
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          search_artifacts: true
-          check_artifacts: true
-          name_is_regexp: false
-          name: fortinet-secure-cloud-blueprint
-          workflow_conclusion: ""
-          if_no_artifact_found: warn
-          path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: false
+#          name: fortinet-forticnp
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: false
+#          name: fortinet-secure-cloud-blueprint
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
       - name: debug
         run: ls -alR content/
       - name: Setup Hugo
