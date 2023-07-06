@@ -68,6 +68,8 @@ jobs:
         id: artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
+          search_artifacts: true
+          check_artifacts: true
           workflow_conclusion: ""
           name: ${{ matrix.repo }}
           name_is_regexp: false
@@ -178,6 +180,8 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
+          search_artifacts: true
+          check_artifacts: true
           name_is_regexp: false
           name: fortinet-forticnp
           workflow_conclusion: ""
@@ -186,6 +190,8 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
+          search_artifacts: true
+          check_artifacts: true
           name_is_regexp: false
           name: fortinet-secure-cloud-blueprint
           workflow_conclusion: ""
