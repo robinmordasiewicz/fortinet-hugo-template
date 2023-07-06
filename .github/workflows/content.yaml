@@ -36,7 +36,6 @@ jobs:
     steps:
     - id: set-matrix
       run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"fortinet-forticnp\"},{\"project\":\"fortinet-secure-cloud-blueprint\"}]}"
-      #run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 
   create_artifacts:
     runs-on: ubuntu-latest
