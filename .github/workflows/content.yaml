@@ -167,11 +167,27 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          name_is_regexp: true
+#          name: fortinet
+#          commit: ${{github.event.pull_request.head.sha}}
+#          if_no_artifact_found: warn
+#          path: content/
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          name_is_regexp: true
-          name: fortinet
+          name_is_regexp: false
+          name: fortinet-forticnp
+          commit: ${{github.event.pull_request.head.sha}}
+          if_no_artifact_found: warn
+          path: content/
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          name_is_regexp: false
+          name: fortinet-secure-cloud-blueprint
           commit: ${{github.event.pull_request.head.sha}}
           if_no_artifact_found: warn
           path: content/
@@ -196,15 +212,15 @@ jobs:
           key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-hugomod-
-      - name: Build with Hugo
-        env:
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-        run: |
-          hugo \
-            --gc \
-            --minify \
-            --baseURL "${{ github.event.repository.homepage }}/"
+#      - name: Build with Hugo
+#        env:
+#          HUGO_ENVIRONMENT: production
+#          HUGO_ENV: production
+#        run: |
+#          hugo \
+#            --gc \
+#            --minify \
+#            --baseURL "${{ github.event.repository.homepage }}/"
       - name: Upload GitHub Page
         uses: actions/upload-pages-artifact@v1
         with:
