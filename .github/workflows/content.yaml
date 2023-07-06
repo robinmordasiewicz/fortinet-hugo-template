@@ -68,7 +68,6 @@ jobs:
         id: artifacts
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           name: ${{ matrix.repo }}
           name_is_regexp: false
@@ -173,12 +172,11 @@ jobs:
         with:
           name_is_regexp: true
           name: fortinet
-          workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           if_no_artifact_found: warn
           path: content/
       - name: debug
-        run: ls -alR
+        run: ls -alR content/
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
