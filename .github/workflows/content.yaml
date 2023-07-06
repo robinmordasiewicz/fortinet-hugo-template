@@ -173,6 +173,8 @@ jobs:
           workflow_conclusion: success
           commit: ${{github.event.pull_request.head.sha}}
           if_no_artifact_found: warn
+      - name: debug
+        run: ls -alR
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
