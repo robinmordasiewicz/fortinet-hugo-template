@@ -57,6 +57,13 @@ jobs:
           separator: ","
           files: |
             **.ssml
+      - name: debug
+        run: |
+          IFS=, read -ra myarray <<< "${{ steps.ssml.outputs.all_changed_files }}"
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+          done
 #      - name: Get all changed .mov
 #        id: mov
 #        uses: tj-actions/changed-files@v36
