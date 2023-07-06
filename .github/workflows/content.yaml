@@ -194,8 +194,8 @@ jobs:
         with:
           search_artifacts: true
           check_artifacts: true
-          name_is_regexp: false
-          name: ${{ matrix.repo }}
+          name_is_regexp: true
+          name: fortinet
           workflow_conclusion: ""
           if_no_artifact_found: warn
           path: content/
