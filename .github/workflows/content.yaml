@@ -150,8 +150,8 @@ jobs:
         with:
           name: ${{ matrix.repo }}
           path: |
-            content/${{ matrix.repo }}/**.webm
-            content/${{ matrix.repo }}/**.wav
+            content/${{ matrix.repo }}/**/*.webm
+            content/${{ matrix.repo }}/**/*.wav
 
   hugo_build:
     runs-on: ubuntu-latest
