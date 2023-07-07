@@ -86,7 +86,9 @@ jobs:
           name: ${{ matrix.repo }}
           name_is_regexp: false
           if_no_artifact_found: warn
-          path: content/
+          #path: content/
+      - name: debug
+        run: ls -laR
       - name: Check for missing wav files
         id: check-missing
         working-directory: ./content/${{ matrix.repo }}
@@ -163,12 +165,12 @@ jobs:
         with:
           name: ${{ matrix.repo }}
           path: |
-            content/${{ matrix.repo }}*/**/**.webm
-            content/${{ matrix.repo }}*/**/**.wav
-            content/${{ matrix.repo }}*/**/*.webm
-            content/${{ matrix.repo }}*/**/*.wav
-            content/${{ matrix.repo }}*/**.webm
-            content/${{ matrix.repo }}*/**.wav
+            content*/${{ matrix.repo }}/**/**.webm
+            content*/${{ matrix.repo }}/**/**.wav
+            content*/${{ matrix.repo }}/**/*.webm
+            content*/${{ matrix.repo }}/**/*.wav
+            content*/${{ matrix.repo }}/**.webm
+            content*/${{ matrix.repo }}/**.wav
 
   hugo_build:
     runs-on: ubuntu-latest
