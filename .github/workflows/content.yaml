@@ -187,36 +187,36 @@ jobs:
 #        with:
 #          if_no_artifact_found: warn
 #          path: content/
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          search_artifacts: true
+          check_artifacts: true
+          name_is_regexp: true
+          name: fortinet
+          workflow_conclusion: ""
+          if_no_artifact_found: warn
+          path: content/
 #      - name: Download artifact
 #        uses: dawidd6/action-download-artifact@v2
 #        with:
 #          search_artifacts: true
 #          check_artifacts: true
-#          name_is_regexp: true
-#          name: fortinet
+#          name_is_regexp: false
+#          name: fortinet-forticnp
 #          workflow_conclusion: ""
 #          if_no_artifact_found: warn
 #          path: content/
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          search_artifacts: true
-          check_artifacts: true
-          name_is_regexp: false
-          name: fortinet-forticnp
-          workflow_conclusion: ""
-          if_no_artifact_found: warn
-          path: content/
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          search_artifacts: true
-          check_artifacts: true
-          name_is_regexp: false
-          name: fortinet-secure-cloud-blueprint
-          workflow_conclusion: ""
-          if_no_artifact_found: warn
-          path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: false
+#          name: fortinet-secure-cloud-blueprint
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
       - name: debug
         run: ls -alR content/
       - name: Setup Hugo
