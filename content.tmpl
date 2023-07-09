@@ -1,0 +1,104 @@
+name: content
+
+on:
+  workflow_call:
+  pull_request:
+    paths-ignore:
+      - "README.md"
+    branches:
+      - main
+  push:
+    paths-ignore:
+      - "README.md"
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  get-timestamp:
+    outputs:
+      timestamp: ${{ steps.get-timestamp.outputs.timestamp }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: get timestamp
+        id: get-timestamp
+        run: |
+          timestamp=`date +'%Y%m%d%H%M%S%3N'`
+          echo "timestamp=$(echo $timestamp)" >> $GITHUB_OUTPUT
+
+  create_artifacts:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    needs: get-timestamp
+    strategy:
+      matrix: 
+        repo: [SUBMODULELIST]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: "content/${{ matrix.repo }}/**.webm"
+          key: ${{ matrix.repo }}-${{ needs.get-timestamp.outputs.timestamp }}
+      - name: create files
+        run: |
+          mkdir -p content/${{ matrix.repo }}
+          echo "file" > content/${{ matrix.repo }}/${{ matrix.repo }}-${{ needs.get-timestamp.outputs.timestamp }}.webm
+          mkdir -p content/${{ matrix.repo }}/${{ needs.get-timestamp.outputs.timestamp }}
+          echo "file" > content/${{ matrix.repo }}/${{ needs.get-timestamp.outputs.timestamp }}/foo-${{ needs.get-timestamp.outputs.timestamp }}.webm
+
+  archive_artifacts:
+    runs-on: ubuntu-latest
+    needs: [create_artifacts , get-timestamp ]
+    steps:
+SUBMODULESTEPS
+      - name: debug
+        run: ls -alR
+      - name: Archive webm wav artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: content-${{ needs.get-timestamp.outputs.timestamp }}
+          path: |
+            **.webm
+            **.wav
+
+  hugo_build:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    needs: [archive_artifacts, create_artifacts , get-timestamp ]
+    steps:
+      - name: Checkout Template Theme
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: content-${{ needs.get-timestamp.outputs.timestamp }}
+      - name: debug
+        run: ls -alR
+

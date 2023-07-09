@@ -1,0 +1,62 @@
+name: compile_content_action
+
+on:
+  workflow_call:
+  pull_request:
+    paths-ignore:
+      - ".github/workflows/content.yaml"
+    branches:
+      - main
+  push:
+    paths-ignore:
+      - ".github/workflows/content.yaml"
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  compile_content_action:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    env: 
+      CI_COMMIT_MESSAGE: Compile Submodule Action
+    steps:
+      - name: Checkout Template Theme
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+      - name: Set environment variable "is-auto-commit"
+        if: github.event.commits[0].message == env.CI_COMMIT_MESSAGE 
+        run: echo "is-auto-commit=true" >> $GITHUB_ENV
+      - name: create workflow
+        if: ${{ env.is-auto-commit }} != true
+        run: |
+          SUBMODULELIST=`git config --file .gitmodules --get-regexp path | grep 'content' | awk '{ print $2 }' | cut -f 2- -d "/" | paste -sd "," -`
+          for i in ${SUBMODULELIST//,/ }
+          do
+            cat submodules.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> submodules.yaml
+          done
+          cat content.tmpl | sed -e "s/SUBMODULELIST/${SUBMODULELIST}/g" | sed -e "/SUBMODULESTEPS/{r submodules.yaml" -e 'd}'
+          #sed -e "/SALT/{r salt.txt" -e "d}" wp-config.php  > result.txt
+          #timestamp=`date +'%Y%m%d%H%M%S%3N'`
+          #echo "name: content-${timestamp}" > .github/workflows/content.yaml
+#      - name: debug
+#        run: ls -alR
+#      - name: commit
+#        if: ${{ env.is-auto-commit }} != true
+#        uses: stefanzweifel/git-auto-commit-action@v4
+#        with:
+#          commit_message: ${{ env.CI_COMMIT_MESSAGE }}
