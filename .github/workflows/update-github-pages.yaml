@@ -225,7 +225,7 @@ jobs:
   hugo_build:
     runs-on: ubuntu-latest
     continue-on-error: false
-    needs: [archive_artifacts, create_artifacts, get-timestamp ]
+    needs: [archive_artifacts, create_artifacts, get-timestamp]
     steps:
       - name: Checkout Template Theme
         uses: actions/checkout@v3
