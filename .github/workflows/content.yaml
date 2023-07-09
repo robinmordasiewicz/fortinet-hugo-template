@@ -2,20 +2,23 @@ name: content
 
 on:
   workflow_call:
+  workflow_dispatch:
   pull_request:
     paths-ignore:
       - "README.md"
       - ".github/workflows/compile_content_action.yaml"
+      - "content.tmpl"
+      - "submodules.tmpl"
     branches:
       - main
   push:
     paths-ignore:
       - "README.md"
       - ".github/workflows/compile_content_action.yaml"
+      - "content.tmpl"
+      - "submodules.tmpl"
     branches:
       - main
-
-  workflow_dispatch:
 
 permissions:
   contents: write
