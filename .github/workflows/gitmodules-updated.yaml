@@ -54,8 +54,9 @@ jobs:
                           grep 'content' | \
                           awk '{ print $2 }' | \
                           cut -f 2- -d "/" | \
-                          paste -sd ", " -`
-          for i in ${GITMODULESLIST//,/ }
+                          paste -sd "," -` | \
+                          sed -e "s/,/, /g"
+          for i in ${GITMODULESLIST//, / }
           do
             cat gitmodules-cache-steps.tmpl | \
             sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache-steps.yaml

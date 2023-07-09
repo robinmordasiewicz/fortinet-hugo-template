@@ -55,7 +55,7 @@ jobs:
     continue-on-error: false
     strategy:
       matrix:
-        repo: [fortinet-forticnp,fortinet-secure-cloud-blueprint]
+        repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
