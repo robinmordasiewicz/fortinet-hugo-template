@@ -8,7 +8,7 @@ on:
     paths:
       - ".github/workflows/gitmodules-updated.yaml"
       - "update-github-pages.tmpl"
-      - "gitmodules-cache.tmpl"
+      - "gitmodules-cache-steps.tmpl"
       - ".gitmodules"
     branches:
       - main
@@ -16,7 +16,7 @@ on:
     paths:
       - ".github/workflows/gitmodules-updated.yaml"
       - "update-github-pages.tmpl"
-      - "gitmodules-cache.tmpl"
+      - "gitmodules-cache-steps.tmpl"
       - ".gitmodules"
     branches:
       - main
@@ -57,14 +57,14 @@ jobs:
                           paste -sd "," -`
           for i in ${GITMODULESLIST//,/ }
           do
-            cat gitmodules-cache.tmpl | \
-            sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache.yaml
+            cat gitmodules-cache-steps.tmpl | \
+            sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache-steps.yaml
           done
           cat update-github-pages.tmpl | \
             sed -e "s/GITMODULESLIST/${GITMODULESLIST}/g" | \
-            sed -e "/GITMODULESCACHE/{r gitmodules-cache.yaml" -e 'd}' > \
+            sed -e "/GITMODULESCACHESTEPS/{r gitmodules-cache-steps.yaml" -e 'd}' > \
             .github/workflows/update-github-pages.yaml
-          rm gitmodules-cache.yaml
+          rm gitmodules-cache-steps.yaml
       - name: commit
         if: ${{ env.is-auto-commit }} != true
         uses: stefanzweifel/git-auto-commit-action@v4
