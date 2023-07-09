@@ -54,13 +54,13 @@ jobs:
                           grep 'content' | \
                           awk '{ print $2 }' | \
                           cut -f 2- -d "/" | \
-                          paste -sd "," -` | \
-                          sed -e "s/,/, /g"
-          for i in ${GITMODULESLIST//, / }
+                          paste -sd "," -`
+          for i in ${GITMODULESLIST//,/ }
           do
             cat gitmodules-cache-steps.tmpl | \
             sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache-steps.yaml
           done
+          GITMODULESLIST=`echo ${GITMODULESLIST} | sed -e "s/,/, /g"`
           cat update-github-pages.tmpl | \
             sed -e "s/GITMODULESLIST/${GITMODULESLIST}/g" | \
             sed -e "/GITMODULESCACHESTEPS/{r gitmodules-cache-steps.yaml" -e 'd}' > \
