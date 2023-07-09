@@ -1,3 +1,4 @@
+---
 name: gitmodules-updated
 
 on:
@@ -36,7 +37,7 @@ jobs:
   gitmodules-updated:
     runs-on: ubuntu-latest
     continue-on-error: false
-    env: 
+    env:
       CI_COMMIT_MESSAGE: Compile Submodule Action
     steps:
       - name: Checkout Template Theme
@@ -44,17 +45,25 @@ jobs:
         with:
           token: ${{ secrets.WORKFLOW_TOKEN }}
       - name: Set environment variable "is-auto-commit"
-        if: github.event.commits[0].message == env.CI_COMMIT_MESSAGE 
+        if: github.event.commits[0].message == env.CI_COMMIT_MESSAGE
         run: echo "is-auto-commit=true" >> $GITHUB_ENV
       - name: create workflow
         if: ${{ env.is-auto-commit }} != true
         run: |
-          GITMODULESLIST=`git config --file .gitmodules --get-regexp path | grep 'content' | awk '{ print $2 }' | cut -f 2- -d "/" | paste -sd "," -`
+          GITMODULESLIST=`git config --file .gitmodules --get-regexp path | \
+                          grep 'content' | \
+                          awk '{ print $2 }' | \
+                          cut -f 2- -d "/" | \
+                          paste -sd "," -`
           for i in ${GITMODULESLIST//,/ }
           do
-            cat gitmodules-cache.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache.yaml
+            cat gitmodules-cache.tmpl | \
+            sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache.yaml
           done
-          cat update-github-pages.tmpl | sed -e "s/GITMODULESLIST/${GITMODULESLIST}/g" | sed -e "/GITMODULESCACHE/{r gitmodules-cache.yaml" -e 'd}' > .github/workflows/update-github-pages.yaml
+          cat update-github-pages.tmpl | \
+            sed -e "s/GITMODULESLIST/${GITMODULESLIST}/g" | \
+            sed -e "/GITMODULESCACHE/{r gitmodules-cache.yaml" -e 'd}' > \
+            .github/workflows/update-github-pages.yaml
           rm gitmodules-cache.yaml
       - name: commit
         if: ${{ env.is-auto-commit }} != true
