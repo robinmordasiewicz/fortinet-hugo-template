@@ -2,7 +2,7 @@ name: compile_content_action
 
 on:
   workflow_call:
-  pull_request:
+  workflow_dispatch:
   pull_request:
     paths:
       - ".github/workflows/compile_content_action.yaml"
@@ -17,8 +17,6 @@ on:
       - "submodules.tmpl"
     branches:
       - main
-
-  workflow_dispatch:
 
 permissions:
   contents: write
