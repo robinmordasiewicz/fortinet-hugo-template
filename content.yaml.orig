@@ -29,30 +29,28 @@ defaults:
     shell: bash
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
+
+  get-timestamp:
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      timestamp: ${{ steps.get-timestamp.outputs.timestamp }}
+    runs-on: ubuntu-latest
     steps:
-    - id: set-matrix
-      run: |
-        echo "::set-output name=matrix::{\"include\":[{\"project\":\"fortinet-forticnp\"},{\"project\":\"fortinet-secure-cloud-blueprint\"}]}"
+      - name: get timestamp
+        id: get-timestamp
+        run: |
+          timestamp=`date +'%Y%m%d%H%M%S%3N'`
+          echo "timestamp=$(echo $timestamp)" >> $GITHUB_OUTPUT
 
   create_artifacts:
     runs-on: ubuntu-latest
-    needs:
-      - job1
+    needs: get-timestamp
     continue-on-error: false
     strategy:
       matrix: 
-        repo: [fortinet-forticnp, fortinet-secure-cloud-blueprint]
-        # ${{fromJson(needs.job1.outputs.matrix)}}
-        #repo: ${{ fromJSON(needs.say_hello.outputs.services) }}
+        repo: [SUBMODULELIST]
     steps:
       - name: Debug
         uses: hmarr/debug-action@v2
-      - name: debug2
-        run: pwd
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -60,6 +58,16 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
+      - name: webm cache
+        uses: actions/cache@v3
+        with:
+          path: "content/${{ matrix.repo }}/**.webm"
+          key: ${{ matrix.repo }}-webm-${{ needs.get-timestamp.outputs.timestamp }}
+      - name: wav cache
+        uses: actions/cache@v3
+        with:
+          path: "content/${{ matrix.repo }}/**.wav"
+          key: ${{ matrix.repo }}-wav-${{ needs.get-timestamp.outputs.timestamp }}
       - name: Get all changed .ssml
         id: ssml
         uses: tj-actions/changed-files@v36
@@ -76,17 +84,17 @@ jobs:
           separator: ","
           files: |
             **.mov
-      - name: Download artifact
-        id: artifacts
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          search_artifacts: true
-          check_artifacts: true
-          workflow_conclusion: ""
-          name: ${{ matrix.repo }}
-          name_is_regexp: false
-          if_no_artifact_found: warn
-          #path: content/
+#      - name: Download artifact
+#        id: artifacts
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          workflow_conclusion: ""
+#          name: ${{ matrix.repo }}
+#          name_is_regexp: false
+#          if_no_artifact_found: warn
+#          #path: content/
       - name: debug
         run: ls -laR
       - name: Check for missing wav files
@@ -159,23 +167,26 @@ jobs:
             ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
             rm tmpout.mov
           done
+
+  archive_artifacts:
+    runs-on: ubuntu-latest
+    needs: [create_artifacts , get-timestamp ]
+    steps:
+SUBMODULESTEPS
+      - name: debug
+        run: ls -alR
       - name: Archive webm wav artifacts
-        #if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.repo }}
+          name: content-${{ needs.get-timestamp.outputs.timestamp }}
           path: |
-            content*/${{ matrix.repo }}/**/**.webm
-            content*/${{ matrix.repo }}/**/**.wav
-            content*/${{ matrix.repo }}/**/*.webm
-            content*/${{ matrix.repo }}/**/*.wav
-            content*/${{ matrix.repo }}/**.webm
-            content*/${{ matrix.repo }}/**.wav
+            **.webm
+            **.wav
 
   hugo_build:
     runs-on: ubuntu-latest
     continue-on-error: false
-    needs: create_artifacts
+    needs: [archive_artifacts, create_artifacts , get-timestamp ]
     steps:
       - name: Checkout Template Theme
         uses: actions/checkout@v3
@@ -189,16 +200,20 @@ jobs:
 #        with:
 #          if_no_artifact_found: warn
 #          path: content/
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v3
         with:
-          search_artifacts: true
-          check_artifacts: true
-          name_is_regexp: true
-          name: fortinet
-          workflow_conclusion: ""
-          if_no_artifact_found: warn
-          path: content/
+          name: content-${{ needs.get-timestamp.outputs.timestamp }}
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: true
+#          name: fortinet
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
 #      - name: Download artifact
 #        uses: dawidd6/action-download-artifact@v2
 #        with:
