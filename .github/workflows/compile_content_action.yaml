@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: "pages"
+  group: "compile_content_action"
   cancel-in-progress: true
 
 defaults:
