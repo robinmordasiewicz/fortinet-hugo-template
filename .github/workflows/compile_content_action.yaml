@@ -50,6 +50,7 @@ jobs:
             cat submodules.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> submodules.yaml
           done
           cat content.tmpl | sed -e "s/SUBMODULELIST/${SUBMODULELIST}/g" | sed -e "/SUBMODULESTEPS/{r submodules.yaml" -e 'd}' > .github/workflows/content.yaml
+          rm submodules.yaml
       - name: commit
         if: ${{ env.is-auto-commit }} != true
         uses: stefanzweifel/git-auto-commit-action@v4
