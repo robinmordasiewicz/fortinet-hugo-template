@@ -9,6 +9,7 @@ on:
       - ".github/workflows/compile_content_action.yaml"
       - "content.tmpl"
       - "submodules.tmpl"
+      - ".gitmodules"
     branches:
       - main
   push:
@@ -17,6 +18,7 @@ on:
       - ".github/workflows/compile_content_action.yaml"
       - "content.tmpl"
       - "submodules.tmpl"
+      - ".gitmodules"
     branches:
       - main
 
