@@ -1,21 +1,21 @@
-name: compile_content_action
+name: gitmodules-updated
 
 on:
   workflow_call:
   workflow_dispatch:
   pull_request:
     paths:
-      - ".github/workflows/compile_content_action.yaml"
-      - "content.tmpl"
-      - "submodules.tmpl"
+      - ".github/workflows/gitmodules-updated.yaml"
+      - "update-github-pages.tmpl"
+      - "gitmodules-cache.tmpl"
       - ".gitmodules"
     branches:
       - main
   push:
     paths:
-      - ".github/workflows/compile_content_action.yaml"
-      - "content.tmpl"
-      - "submodules.tmpl"
+      - ".github/workflows/gitmodules-updated.yaml"
+      - "update-github-pages.tmpl"
+      - "gitmodules-cache.tmpl"
       - ".gitmodules"
     branches:
       - main
@@ -24,7 +24,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: "compile_content_action"
+  group: "gitmodules-updated"
   cancel-in-progress: true
 
 defaults:
@@ -33,7 +33,7 @@ defaults:
 
 jobs:
 
-  compile_content_action:
+  gitmodules-updated:
     runs-on: ubuntu-latest
     continue-on-error: false
     env: 
@@ -49,13 +49,13 @@ jobs:
       - name: create workflow
         if: ${{ env.is-auto-commit }} != true
         run: |
-          SUBMODULELIST=`git config --file .gitmodules --get-regexp path | grep 'content' | awk '{ print $2 }' | cut -f 2- -d "/" | paste -sd "," -`
-          for i in ${SUBMODULELIST//,/ }
+          GITMODULESLIST=`git config --file .gitmodules --get-regexp path | grep 'content' | awk '{ print $2 }' | cut -f 2- -d "/" | paste -sd "," -`
+          for i in ${GITMODULESLIST//,/ }
           do
-            cat submodules.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> submodules.yaml
+            cat gitmodules-cache.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> gitmodules-cache.yaml
           done
-          cat content.tmpl | sed -e "s/SUBMODULELIST/${SUBMODULELIST}/g" | sed -e "/SUBMODULESTEPS/{r submodules.yaml" -e 'd}' > .github/workflows/content.yaml
-          rm submodules.yaml
+          cat update-github-pages.tmpl | sed -e "s/GITMODULESLIST/${GITMODULESLIST}/g" | sed -e "/GITMODULESCACHE/{r gitmodules-cache.yaml" -e 'd}' > .github/workflows/update-github-pages.yaml
+          rm gitmodules-cache.yaml
       - name: commit
         if: ${{ env.is-auto-commit }} != true
         uses: stefanzweifel/git-auto-commit-action@v4
