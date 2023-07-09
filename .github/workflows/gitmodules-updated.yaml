@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: false
     env:
-      CI_COMMIT_MESSAGE: Compile Submodule Action
+      CI_COMMIT_MESSAGE: Update GitHub Pages Workflow
     steps:
       - name: Checkout Template Theme
         uses: actions/checkout@v3
