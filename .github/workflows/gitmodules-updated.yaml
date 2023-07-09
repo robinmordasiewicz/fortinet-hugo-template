@@ -54,7 +54,7 @@ jobs:
                           grep 'content' | \
                           awk '{ print $2 }' | \
                           cut -f 2- -d "/" | \
-                          paste -sd "," -`
+                          paste -sd ", " -`
           for i in ${GITMODULESLIST//,/ }
           do
             cat gitmodules-cache-steps.tmpl | \
