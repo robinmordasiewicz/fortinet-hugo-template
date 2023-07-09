@@ -161,10 +161,10 @@ jobs:
           for i in "${myarray[@]}"; do
             echo "Value: ${i}"
             echo "Value: ${i%.*}"
-            ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
+            ffmpeg -y -i ${i} -filter:v fps=15 tmpout.mov
             [[ -f ${i%.*}.wav ]] && ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
-            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
-            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 40 -pass 1 -an -f webm -y /dev/null
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 40 -pass 2  "${i%.*}.webm"
             rm tmpout.mov
           done
 
