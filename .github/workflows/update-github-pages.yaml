@@ -7,18 +7,18 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
     paths-ignore:
       - "README.md"
-      - ".github/workflows/compile_content_action.yaml"
-      - "gitmodules-cache-steps.tmpl"
+      - ".github/workflows/gitmodules-updated.yaml"
       - "update-github-pages.tmpl"
+      - "gitmodules-cache-steps.tmpl"
       - ".gitmodules"
     branches:
       - main
   push:
     paths-ignore:
       - "README.md"
-      - ".github/workflows/compile_content_action.yaml"
-      - "gitmodules-cache-steps.tmpl"
+      - ".github/workflows/gitmodules-updated.yaml"
       - "update-github-pages.tmpl"
+      - "gitmodules-cache-steps.tmpl"
       - ".gitmodules"
     branches:
       - main
