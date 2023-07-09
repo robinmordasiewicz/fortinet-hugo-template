@@ -43,12 +43,14 @@ jobs:
 
   create_artifacts:
     runs-on: ubuntu-latest
-    continue-on-error: false
     needs: get-timestamp
+    continue-on-error: false
     strategy:
       matrix: 
         repo: [SUBMODULELIST]
     steps:
+      - name: Debug
+        uses: hmarr/debug-action@v2
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -56,17 +58,115 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: cache
+      - name: webm cache
         uses: actions/cache@v3
         with:
           path: "content/${{ matrix.repo }}/**.webm"
-          key: ${{ matrix.repo }}-${{ needs.get-timestamp.outputs.timestamp }}
-      - name: create files
+          key: ${{ matrix.repo }}-webm-${{ needs.get-timestamp.outputs.timestamp }}
+      - name: wav cache
+        uses: actions/cache@v3
+        with:
+          path: "content/${{ matrix.repo }}/**.wav"
+          key: ${{ matrix.repo }}-wav-${{ needs.get-timestamp.outputs.timestamp }}
+      - name: Get all changed .ssml
+        id: ssml
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/${{ matrix.repo }}
+          separator: ","
+          files: |
+            **.ssml
+      - name: Get all changed .mov
+        id: mov
+        uses: tj-actions/changed-files@v36
+        with:
+          path: ./content/${{ matrix.repo }}
+          separator: ","
+          files: |
+            **.mov
+#      - name: Download artifact
+#        id: artifacts
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          workflow_conclusion: ""
+#          name: ${{ matrix.repo }}
+#          name_is_regexp: false
+#          if_no_artifact_found: warn
+#          #path: content/
+      - name: debug
+        run: ls -laR
+      - name: Check for missing wav files
+        id: check-missing
+        working-directory: ./content/${{ matrix.repo }}
         run: |
-          mkdir -p content/${{ matrix.repo }}
-          echo "file" > content/${{ matrix.repo }}/${{ matrix.repo }}-${{ needs.get-timestamp.outputs.timestamp }}.webm
-          mkdir -p content/${{ matrix.repo }}/${{ needs.get-timestamp.outputs.timestamp }}
-          echo "file" > content/${{ matrix.repo }}/${{ needs.get-timestamp.outputs.timestamp }}/foo-${{ needs.get-timestamp.outputs.timestamp }}.webm
+          ssml_list=""
+          shopt -s globstar
+          for i in **/*.ssml; do
+            if [[ -f ${i%.*}.ssml  &&  ! -f ${i%.*}.wav ]]; then
+              ssml_list="${ssml_list},${i}"
+              echo "changed=true" >> $GITHUB_OUTPUT
+            fi
+          done
+          ssml_list=`echo ${ssml_list} | sed -e 's/,$//' | sed -e 's/^,//'`
+          echo "ssml_list=$(echo $ssml_list)" >> $GITHUB_OUTPUT
+      - name: gcloud auth
+        if: steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          token_format: 'access_token'
+          workload_identity_provider: '${{ vars.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ vars.SERVICE_ACCOUNT }}'
+      - name: convert .ssml to .wav
+        if: steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        working-directory: ./content/${{ matrix.repo }}
+        run: |
+          IFS=, read -ra ssml_arr <<< "${{ steps.ssml.outputs.all_changed_files }}"
+          IFS=, read -ra ssml_list <<< "${{ steps.check-missing.outputs.ssml_list }}"
+          myarray=( "${ssml_arr[@]}" "${ssml_list[@]}" )
+          IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            sed -e "/INSERTSSML/r ${i%.*}.ssml" -e "/INSERTSSML/d" ${GITHUB_WORKSPACE}/text-to-speech.json > ${i%.*}.json
+            curl -H "Authorization: Bearer $(gcloud auth application-default print-access-token)" \
+                 -H "Content-Type: application/json; charset=utf-8" \
+                 -d @${i%.*}.json \
+                 "https://texttospeech.googleapis.com/v1/text:synthesize" > ${i%.*}.raw
+            cat ${i%.*}.raw | grep 'audioContent' | sed 's|audioContent| |' | tr -d '\n ":{},' > tmp.txt
+            base64 -i tmp.txt --decode > ${i%.*}.wav
+            rm ${i%.*}.raw tmp.txt ${i%.*}.json
+          done
+      - name: Setup FFmpeg
+        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        uses: FedericoCarboni/setup-ffmpeg@v2
+      - name: convert .mov to .webm
+        if: steps.mov.outputs.any_changed == 'true' || steps.ssml.outputs.any_changed == 'true' || steps.check-missing.outputs.changed == 'true'
+        working-directory: ./content/${{ matrix.repo }}
+        run: |
+          IFS=, read -ra ssml_arr <<< "${{ steps.ssml.outputs.all_changed_files }}"
+          IFS=, read -ra ssml_list <<< "${{ steps.check-missing.outputs.ssml_list }}"
+          myarray=( "${ssml_arr[@]}" "${ssml_list[@]}" )
+          IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
+          movtmp_arr=()
+          for value in "${myarray[@]}"
+          do
+            movtmp_arr+=("`echo $value | sed -e 's/\.ssml$/.mov/'`")
+          done
+          IFS=, read -ra mov_arr <<< "${{ steps.mov.outputs.all_changed_files }}"
+          myarray=( "${movtmp_arr[@]}" "${mov_arr[@]}" )
+          IFS="," read -r -a myarray <<< "$(tr ' ' '\n' <<< "${myarray[@]}" | sort -u | tr '\n' ',')"
+          for i in "${myarray[@]}"; do
+            echo "Value: ${i}"
+            echo "Value: ${i%.*}"
+            ffmpeg -y -i ${i} -filter:v fps=10 tmpout.mov
+            [[ -f ${i%.*}.wav ]] && ffmpeg -y -i tmpout.mov -i ${i%.*}.wav -c:v copy -c:a aac tmpout2.mov && mv tmpout2.mov tmpout.mov
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 1 -an -f webm -y /dev/null
+            ffmpeg -y -i tmpout.mov -vf scale=1920:-1 -b:v 0 -crf 43 -pass 2  "${i%.*}.webm"
+            rm tmpout.mov
+          done
 
   archive_artifacts:
     runs-on: ubuntu-latest
@@ -95,10 +195,88 @@ SUBMODULESTEPS
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: ${{ github.event.pull_request.head.ref }}
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          if_no_artifact_found: warn
+#          path: content/
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
         with:
           name: content-${{ needs.get-timestamp.outputs.timestamp }}
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: true
+#          name: fortinet
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: false
+#          name: fortinet-forticnp
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
+#      - name: Download artifact
+#        uses: dawidd6/action-download-artifact@v2
+#        with:
+#          search_artifacts: true
+#          check_artifacts: true
+#          name_is_regexp: false
+#          name: fortinet-secure-cloud-blueprint
+#          workflow_conclusion: ""
+#          if_no_artifact_found: warn
+#          path: content/
       - name: debug
-        run: ls -alR
+        run: ls -alR content/
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+      - name: Install Dart Sass Embedded
+        run: sudo snap install dart-sass-embedded
+      - name: Setup Github Pages
+        id: pages
+        uses: actions/configure-pages@v3
+      - name: Install Node.js dependencies
+        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+      - name: Cache Hugo
+        uses: actions/cache@v3
+        with:
+          path: /tmp/hugo_cache
+          key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-hugomod-
+#      - name: Build with Hugo
+#        env:
+#          HUGO_ENVIRONMENT: production
+#          HUGO_ENV: production
+#        run: |
+#          hugo \
+#            --gc \
+#            --minify \
+#            --baseURL "${{ github.event.repository.homepage }}/"
+#      - name: Upload GitHub Page
+#        uses: actions/upload-pages-artifact@v1
+#        with:
+#          path: ./public
+
+#  deploy:
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deployment.outputs.page_url }}
+#    runs-on: ubuntu-latest
+#    needs: hugo_build
+#    steps:
+#      - name: Deploy to GitHub Pages
+#        id: deployment
+#        uses: actions/deploy-pages@v2
 
