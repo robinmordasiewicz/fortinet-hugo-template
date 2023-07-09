@@ -1,9 +1,9 @@
-      - name: SUBMODULENAME cache
+      - name: SUBMODULENAME webm cache
         uses: actions/cache@v3
         with:
           path: "content/SUBMODULENAME/**.webm"
           key: SUBMODULENAME-webm-${{ needs.get-timestamp.outputs.timestamp }}
-      - name: SUBMODULENAME cache
+      - name: SUBMODULENAME wav cache
         uses: actions/cache@v3
         with:
           path: "content/SUBMODULENAME/**.wav"
