@@ -3,13 +3,18 @@ name: compile_content_action
 on:
   workflow_call:
   pull_request:
-    paths-ignore:
-      - ".github/workflows/content.yaml"
+  pull_request:
+    paths:
+      - ".github/workflows/compile_content_action.yaml"
+      - "content.tmpl"
+      - "submodules.tmpl"
     branches:
       - main
   push:
-    paths-ignore:
-      - ".github/workflows/content.yaml"
+    paths:
+      - ".github/workflows/compile_content_action.yaml"
+      - "content.tmpl"
+      - "submodules.tmpl"
     branches:
       - main
 
