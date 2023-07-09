@@ -49,14 +49,9 @@ jobs:
           do
             cat submodules.tmpl | sed -e "s/SUBMODULENAME/${i}/g" >> submodules.yaml
           done
-          cat content.tmpl | sed -e "s/SUBMODULELIST/${SUBMODULELIST}/g" | sed -e "/SUBMODULESTEPS/{r submodules.yaml" -e 'd}'
-          #sed -e "/SALT/{r salt.txt" -e "d}" wp-config.php  > result.txt
-          #timestamp=`date +'%Y%m%d%H%M%S%3N'`
-          #echo "name: content-${timestamp}" > .github/workflows/content.yaml
-#      - name: debug
-#        run: ls -alR
-#      - name: commit
-#        if: ${{ env.is-auto-commit }} != true
-#        uses: stefanzweifel/git-auto-commit-action@v4
-#        with:
-#          commit_message: ${{ env.CI_COMMIT_MESSAGE }}
+          cat content.tmpl | sed -e "s/SUBMODULELIST/${SUBMODULELIST}/g" | sed -e "/SUBMODULESTEPS/{r submodules.yaml" -e 'd}' > .github/workflows/content.yaml
+      - name: commit
+        if: ${{ env.is-auto-commit }} != true
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: ${{ env.CI_COMMIT_MESSAGE }}
